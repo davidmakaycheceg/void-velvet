@@ -85,10 +85,10 @@ const Footer = () => {
               Coordenadas
             </h3>
             <div className="font-mono text-xs text-white/30 space-y-2">
-              <p>LAT 40.4168° N</p>
-              <p>LONG 3.7038° W</p>
+              <p>LAT 39.4669° N</p>
+              <p>LONG 0.3808° W</p>
               <p className="pt-4 text-white/20">
-                MADRID // SPAIN
+                VALENCIA // SPAIN
               </p>
             </div>
           </div>
