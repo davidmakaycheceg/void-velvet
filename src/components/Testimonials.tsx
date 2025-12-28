@@ -1,5 +1,8 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import blancoExitoso from "@/assets/blanco-exitoso.jpeg";
+import latinoExitoso from "@/assets/latino-exitoso.jpeg";
+import negroExitoso from "@/assets/negro-exitoso.jpeg";
 
 interface TestimonialCardProps {
   name: string;
@@ -80,21 +83,21 @@ const Testimonials = () => {
       role: "Arquitecto",
       achievement: "Facturación x3",
       quote: "Sky Club cambió mi perspectiva. No se trata solo de imagen, se trata de mentalidad.",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80",
+      image: blancoExitoso,
     },
     {
       name: "DANIEL R.",
       role: "Empresario",
       achievement: "2 Startups",
       quote: "El networking aquí vale más que cualquier MBA. Conexiones reales, resultados reales.",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=80",
+      image: latinoExitoso,
     },
     {
       name: "ADRIÁN M.",
       role: "Director Creativo",
       achievement: "+40% Clientes",
       quote: "Cada detalle cuenta. Sky Club me enseñó que la excelencia no es negociable.",
-      image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&q=80",
+      image: negroExitoso,
     },
   ];
 
