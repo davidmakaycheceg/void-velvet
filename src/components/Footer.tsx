@@ -94,40 +94,45 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Map Placeholder */}
+        {/* Google Maps Embed */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="mt-16 relative rounded-2xl overflow-hidden h-64 border border-white/10"
         >
-          {/* Dark Styled Map Background */}
-          <div 
-            className="absolute inset-0 bg-cover bg-center grayscale opacity-40"
-            style={{
-              backgroundImage: `url("https://api.mapbox.com/styles/v1/mapbox/dark-v10/static/-3.7038,40.4168,12,0/1200x400@2x?access_token=pk.placeholder")`,
-              backgroundColor: "#0a0a0a",
-            }}
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3080.0247853957896!2d-0.3808433!3d39.4669444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd6048a30e3e5f5f%3A0x8c5c5c5c5c5c5c5c!2sCarrer%20Just%20Ram%C3%ADrez%2C%202%2C%2046006%20Val%C3%A8ncia%2C%20Spain!5e0!3m2!1sen!2ses!4v1703789999999!5m2!1sen!2ses"
+            width="100%"
+            height="100%"
+            style={{ border: 0, filter: "grayscale(100%) invert(92%) contrast(90%)" }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="SKY CLUB HQ - Carrer Just Ramírez 2, Valencia"
           />
-          <div className="absolute inset-0 bg-void/60" />
           
-          {/* Location Pin */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="relative"
-            >
-              <div className="w-4 h-4 rounded-full bg-gold-base shadow-gold" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-gold-base/30 animate-ping-slow" />
-            </motion.div>
-          </div>
+          {/* Overlay for styling */}
+          <div className="absolute inset-0 bg-void/30 pointer-events-none" />
 
-          {/* Overlay Text */}
-          <div className="absolute bottom-4 left-4">
-            <span className="font-mono text-xs uppercase tracking-widest text-gold-base/60">
-              SKY CLUB HQ
-            </span>
+          {/* Address & Label */}
+          <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between pointer-events-none">
+            <div>
+              <span className="font-mono text-xs uppercase tracking-widest text-gold-base">
+                SKY CLUB HQ
+              </span>
+              <p className="font-body text-xs text-white/60 mt-1">
+                Carrer Just Ramírez 2, Valencia
+              </p>
+            </div>
+            <a 
+              href="https://www.google.com/maps/search/?api=1&query=Carrer+Just+Ramirez+2+Valencia+Spain"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-[10px] uppercase tracking-wider text-gold-base/60 hover:text-gold-base transition-colors pointer-events-auto"
+            >
+              Ver en Maps →
+            </a>
           </div>
         </motion.div>
 
