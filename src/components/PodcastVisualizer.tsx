@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
-import { Play, Radio } from "lucide-react";
-import { useState } from "react";
+import { Play, Pause, Radio } from "lucide-react";
+import { useState, useRef } from "react";
+import episodioAudio from "@/assets/episodio-42.m4a";
 
-const AudioBars = () => {
+const AudioBars = ({ isPlaying }: { isPlaying: boolean }) => {
   return (
     <div className="flex items-end gap-1 h-12">
       {[...Array(20)].map((_, i) => (
@@ -17,7 +18,7 @@ const AudioBars = () => {
           }}
           transition={{
             duration: 0.8 + Math.random() * 0.4,
-            repeat: Infinity,
+            repeat: isPlaying ? Infinity : 0,
             ease: "easeInOut",
             delay: i * 0.05,
           }}
@@ -31,6 +32,22 @@ const AudioBars = () => {
 
 const PodcastVisualizer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  const togglePlay = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleAudioEnd = () => {
+    setIsPlaying(false);
+  };
 
   return (
     <section className="relative bg-void border-t border-gold-base/30 overflow-hidden">
@@ -38,14 +55,25 @@ const PodcastVisualizer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Left - Info */}
           <div className="flex items-center gap-6">
+            {/* Audio Element */}
+            <audio 
+              ref={audioRef} 
+              src={episodioAudio} 
+              onEnded={handleAudioEnd}
+            />
+            
             {/* Play Button */}
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setIsPlaying(!isPlaying)}
+              onClick={togglePlay}
               className="relative w-16 h-16 rounded-full bg-gold-gradient flex items-center justify-center shadow-gold group"
             >
-              <Play className="w-6 h-6 text-void ml-1" fill="currentColor" />
+              {isPlaying ? (
+                <Pause className="w-6 h-6 text-void" fill="currentColor" />
+              ) : (
+                <Play className="w-6 h-6 text-void ml-1" fill="currentColor" />
+              )}
               
               {/* Ping Animation */}
               <span className="absolute inset-0 rounded-full bg-gold-base/50 animate-ping-slow" />
@@ -69,7 +97,7 @@ const PodcastVisualizer = () => {
 
           {/* Center - Audio Visualizer */}
           <div className="hidden md:block flex-1 max-w-md">
-            <AudioBars />
+            <AudioBars isPlaying={isPlaying} />
           </div>
 
           {/* Right - Subscribe */}
