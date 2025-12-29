@@ -8,10 +8,17 @@ interface BentoCardProps {
   image: string;
   className?: string;
   delay?: number;
+  href?: string;
 }
 
-const BentoCard = ({ title, subtitle, image, className = "", delay = 0 }: BentoCardProps) => {
+const BentoCard = ({ title, subtitle, image, className = "", delay = 0, href }: BentoCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
+
+  const handleClick = () => {
+    if (href) {
+      window.open(href, '_blank', 'noopener,noreferrer');
+    }
+  };
 
   return (
     <motion.div
@@ -21,6 +28,7 @@ const BentoCard = ({ title, subtitle, image, className = "", delay = 0 }: BentoC
       transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={handleClick}
       className={`group relative bg-void border border-white/10 rounded-2xl overflow-hidden cursor-pointer transition-all duration-700 ${className}`}
     >
       {/* Background Image */}
@@ -111,6 +119,7 @@ const BentoGrid = () => {
           image="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=800&q=80"
           className="md:col-span-2 md:row-span-2"
           delay={0}
+          href="https://skybladefinal.lovable.app"
         />
 
         {/* Library */}
@@ -120,6 +129,7 @@ const BentoGrid = () => {
           image="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=600&q=80"
           className="md:col-span-1 md:row-span-1"
           delay={0.1}
+          href="https://skypressfinal.lovable.app"
         />
 
         {/* Jewelry - Tall */}
@@ -129,6 +139,7 @@ const BentoGrid = () => {
           image="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=80"
           className="md:col-span-1 md:row-span-2"
           delay={0.2}
+          href="https://skycartelfinal.lovable.app"
         />
 
         {/* Atelier */}
@@ -138,6 +149,7 @@ const BentoGrid = () => {
           image="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&q=80"
           className="md:col-span-1 md:row-span-1"
           delay={0.3}
+          href="https://skylabelfinal.lovable.app"
         />
 
         {/* Podcast with Audio Wave */}
@@ -174,6 +186,7 @@ const BentoGrid = () => {
           image="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80"
           className="md:col-span-2 md:row-span-1"
           delay={0.5}
+          href="https://skyforgefinal.lovable.app"
         />
       </div>
     </section>
