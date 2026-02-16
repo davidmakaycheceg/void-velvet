@@ -38,16 +38,16 @@ const TestimonialCard = ({ name, role, achievement, quote, image, delay = 0 }: T
             ${isHovered ? 'grayscale-0 saturate-[0.8]' : 'grayscale saturate-0'}
           `}
         />
-        
+
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-void via-void/30 to-transparent" />
 
         {/* Quote on Hover */}
         <motion.div
           initial={false}
-          animate={{ 
+          animate={{
             opacity: isHovered ? 1 : 0,
-            y: isHovered ? 0 : 20 
+            y: isHovered ? 0 : 20
           }}
           transition={{ duration: 0.4 }}
           className="absolute inset-x-6 bottom-24 text-center"
@@ -102,7 +102,9 @@ const Testimonials = () => {
   ];
 
   return (
-    <section className="relative py-24 md:py-32 px-6 bg-void overflow-hidden">
+    <section id="testimonials" className="relative py-24 md:py-32 px-6 bg-void overflow-hidden">
+      {/* Gold accent line */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-base/20 to-transparent" />
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <motion.div

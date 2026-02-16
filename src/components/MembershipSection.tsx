@@ -5,21 +5,21 @@ import { Check, Key, Crown, Sparkles } from "lucide-react";
 interface PricingCardProps {
   tier: string;
   price: number;
-  annualPrice: number;
-  isAnnual: boolean;
+  originalPrice?: number;
+  offerLabel?: string;
   icon: React.ReactNode;
   features: string[];
   cta: string;
   isPopular?: boolean;
   isPremium?: boolean;
+  isFree?: boolean;
   delay?: number;
 }
 
-const PricingCard = ({ tier, price, annualPrice, isAnnual, icon, features, cta, isPopular, isPremium, delay = 0 }: PricingCardProps) => {
+const PricingCard = ({ tier, price, originalPrice, offerLabel, icon, features, cta, isPopular, isPremium, isFree, delay = 0 }: PricingCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [displayPrice, setDisplayPrice] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
-  const currentPrice = isAnnual ? annualPrice : price;
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -45,50 +45,27 @@ const PricingCard = ({ tier, price, annualPrice, isAnnual, icon, features, cta, 
     mouseY.set(0);
   };
 
-  // Animate price changes
-  useEffect(() => {
-    const duration = 600;
-    const startTime = Date.now();
-    const startPrice = displayPrice;
-    const targetPrice = currentPrice;
-    
-    const animate = () => {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const newPrice = startPrice + (targetPrice - startPrice) * eased;
-      setDisplayPrice(Math.round(newPrice * 100) / 100);
-      
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      } else {
-        setDisplayPrice(targetPrice);
-      }
-    };
-    animate();
-  }, [currentPrice]);
-
   // Initial count up animation
   useEffect(() => {
-    if (hasAnimated) return;
-    
+    if (hasAnimated || isFree) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimated) {
           setHasAnimated(true);
           const duration = 1500;
           const startTime = Date.now();
-          
+
           const animate = () => {
             const elapsed = Date.now() - startTime;
             const progress = Math.min(elapsed / duration, 1);
             const eased = 1 - Math.pow(1 - progress, 3);
-            setDisplayPrice(Math.floor(currentPrice * eased * 100) / 100);
-            
+            setDisplayPrice(Math.floor(price * eased * 100) / 100);
+
             if (progress < 1) {
               requestAnimationFrame(animate);
             } else {
-              setDisplayPrice(currentPrice);
+              setDisplayPrice(price);
             }
           };
           animate();
@@ -102,7 +79,7 @@ const PricingCard = ({ tier, price, annualPrice, isAnnual, icon, features, cta, 
     }
 
     return () => observer.disconnect();
-  }, [currentPrice, hasAnimated]);
+  }, [price, hasAnimated, isFree]);
 
   return (
     <motion.div
@@ -121,10 +98,10 @@ const PricingCard = ({ tier, price, annualPrice, isAnnual, icon, features, cta, 
       }}
       className={`
         relative rounded-3xl p-8 transition-all duration-500
-        ${isPremium 
-          ? 'bg-[#0a0a0a] border-beam scale-105 md:scale-110 shadow-gold-lg z-10' 
-          : isPopular 
-            ? 'glass-panel border border-white/20' 
+        ${isPremium
+          ? 'bg-[#0a0a0a] border-beam scale-105 md:scale-110 shadow-gold-lg z-10'
+          : isPopular
+            ? 'glass-panel border border-white/20'
             : 'bg-white/5 border border-white/10'
         }
       `}
@@ -133,6 +110,13 @@ const PricingCard = ({ tier, price, annualPrice, isAnnual, icon, features, cta, 
       {isPopular && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-white text-void text-xs font-semibold uppercase tracking-wider">
           Más Elegido
+        </div>
+      )}
+
+      {/* Offer Badge */}
+      {offerLabel && (
+        <div className="absolute -top-3 right-4 px-3 py-1 rounded-full bg-gold-base text-void text-xs font-semibold uppercase tracking-wider shadow-gold animate-pulse-slow">
+          {offerLabel}
         </div>
       )}
 
@@ -153,10 +137,28 @@ const PricingCard = ({ tier, price, annualPrice, isAnnual, icon, features, cta, 
 
       {/* Price */}
       <div className="mb-6">
-        <span className={`font-display font-bold text-5xl ${isPremium ? 'text-gold-base' : 'text-white'}`}>
-          {displayPrice.toFixed(2)}€
-        </span>
-        <span className="text-white/40 text-sm">/mes</span>
+        {isFree ? (
+          <span className="font-display font-bold text-5xl text-white">
+            Gratis
+          </span>
+        ) : (
+          <>
+            {originalPrice && (
+              <span className="font-display text-xl text-white/30 line-through mr-3">
+                {originalPrice.toFixed(2)}€
+              </span>
+            )}
+            <span className={`font-display font-bold text-5xl ${isPremium ? 'text-gold-base' : 'text-white'}`}>
+              {displayPrice.toFixed(2)}€
+            </span>
+            <span className="text-white/40 text-sm">/mes</span>
+            {originalPrice && (
+              <p className="text-gold-base/70 text-xs mt-1 font-mono">
+                Primeros 3 meses · después {originalPrice.toFixed(2)}€/mes
+              </p>
+            )}
+          </>
+        )}
       </div>
 
       {/* Features */}
@@ -174,10 +176,10 @@ const PricingCard = ({ tier, price, annualPrice, isAnnual, icon, features, cta, 
         className={`
           w-full py-4 rounded-full font-display font-semibold text-sm uppercase tracking-wider
           transition-all duration-300
-          ${isPremium 
-            ? 'bg-gold-gradient text-void shimmer hover:shadow-gold' 
-            : isPopular 
-              ? 'bg-white text-void hover:bg-white/90' 
+          ${isPremium
+            ? 'bg-gold-gradient text-void shimmer hover:shadow-gold'
+            : isPopular
+              ? 'bg-white text-void hover:bg-white/90'
               : 'border border-white/30 text-white hover:bg-white/10'
           }
         `}
@@ -189,9 +191,8 @@ const PricingCard = ({ tier, price, annualPrice, isAnnual, icon, features, cta, 
 };
 
 const MembershipSection = () => {
-  const [isAnnual, setIsAnnual] = useState(false);
   const [sliderValue, setSliderValue] = useState(100);
-  
+
   const multiplier = 2.5 + (sliderValue / 100) * 5;
   const projectedValue = Math.round(sliderValue * multiplier);
 
@@ -219,72 +220,33 @@ const MembershipSection = () => {
           </p>
         </motion.div>
 
-        {/* Toggle */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="flex items-center justify-center gap-4 mb-16"
-        >
-          <span className={`font-body text-sm ${!isAnnual ? 'text-white' : 'text-white/40'}`}>
-            Mensual
-          </span>
-          <button
-            onClick={() => setIsAnnual(!isAnnual)}
-            className="relative w-16 h-8 rounded-full bg-white/10 border border-white/20 transition-colors duration-300"
-          >
-            <motion.div
-              animate={{ x: isAnnual ? 32 : 0 }}
-              transition={{ type: "spring", stiffness: 400, damping: 25 }}
-              className="absolute top-1 left-1 w-6 h-6 rounded-full bg-gold-gradient shadow-gold"
-            />
-          </button>
-          <span className={`font-body text-sm flex items-center gap-2 ${isAnnual ? 'text-white' : 'text-white/40'}`}>
-            Anual
-            {isAnnual && (
-              <motion.span
-                initial={{ scale: 0 }}
-                animate={{ scale: [1, 1.1, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-                className="px-2 py-0.5 rounded-full bg-gold-base text-void text-xs font-semibold shadow-gold"
-              >
-                -20%
-              </motion.span>
-            )}
-          </span>
-        </motion.div>
-
         {/* Pricing Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-4 items-center mb-24">
           <PricingCard
-            tier="NIVEL TERRENAL"
-            price={9.99}
-            annualPrice={7.99}
-            isAnnual={isAnnual}
+            tier="GRATUITA"
+            price={0}
+            isFree
             icon={<Key className="w-10 h-10 text-white/40" />}
-            features={["Acceso Digital", "Contenido Exclusivo", "Newsletter VIP", "Comunidad Discord"]}
-            cta="Iniciar"
+            features={["Acceso Digital Básico", "Contenido Comunitario", "Newsletter Semanal", "Comunidad Discord"]}
+            cta="Empezar Gratis"
             delay={0.1}
           />
           <PricingCard
             tier="NIVEL ATMOSFÉRICO"
-            price={29.99}
-            annualPrice={23.99}
-            isAnnual={isAnnual}
+            price={7.99}
+            originalPrice={9.99}
+            offerLabel="¡Oferta 3 meses!"
             icon={<Crown className="w-10 h-10 text-white" />}
-            features={["Acceso Digital + Físico", "Descuentos 15%", "Eventos Mensuales", "Mentoría Grupal"]}
+            features={["Todo lo Gratuito +", "Contenido Exclusivo Premium", "Descuentos 15%", "Eventos Mensuales", "Mentoría Grupal"]}
             cta="Elevarse"
             isPopular
             delay={0.2}
           />
           <PricingCard
             tier="CÍRCULO INTERNO"
-            price={99.99}
-            annualPrice={79.99}
-            isAnnual={isAnnual}
+            price={15.99}
             icon={<Sparkles className="w-12 h-12 text-gold-base" />}
-            features={["Acceso VIP 24/7", "Mentoría Privada", "Sastrería a Medida", "Black Card Física"]}
+            features={["Todo lo Atmosférico +", "Acceso VIP 24/7", "Mentoría Privada", "Sastrería a Medida", "Black Card Física"]}
             cta="Reclamar Trono"
             isPremium
             delay={0.3}
@@ -306,7 +268,7 @@ const MembershipSection = () => {
               <p className="text-white/50 mb-8">
                 Desliza para ver el impacto potencial de tu inversión en ti mismo.
               </p>
-              
+
               {/* Slider */}
               <div className="relative">
                 <input
@@ -359,7 +321,7 @@ const MembershipSection = () => {
             <div className="w-80 h-48 rounded-2xl bg-gradient-to-br from-[#0a0a0a] via-[#1a1a1a] to-[#0a0a0a] border border-gold-base/30 shadow-gold-lg p-6 flex flex-col justify-between">
               {/* Chip */}
               <div className="w-12 h-10 rounded-md bg-gradient-to-br from-gold-light via-gold-base to-gold-dark" />
-              
+
               {/* Card Info */}
               <div>
                 <div className="font-display font-bold text-gold-gradient text-xl tracking-wider">
@@ -370,7 +332,7 @@ const MembershipSection = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Smoke/Glow Effect */}
             <div className="absolute -inset-10 bg-gold-base/5 blur-3xl rounded-full -z-10" />
           </div>

@@ -2,6 +2,7 @@ import NoiseOverlay from "@/components/NoiseOverlay";
 import FloatingNav from "@/components/FloatingNav";
 import Hero from "@/components/Hero";
 import BentoGrid from "@/components/BentoGrid";
+import ServiceSections from "@/components/ServiceSections";
 import MembershipSection from "@/components/MembershipSection";
 import Testimonials from "@/components/Testimonials";
 import Marquee from "@/components/Marquee";
@@ -25,6 +26,9 @@ const Index = () => {
 
       {/* Bento Grid Hub - The Constellation */}
       <BentoGrid />
+
+      {/* Service Sections - Detailed Content */}
+      <ServiceSections />
 
       {/* Marquee - Lookbook Infinito */}
       <Marquee />

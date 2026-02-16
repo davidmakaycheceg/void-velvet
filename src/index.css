@@ -351,6 +351,21 @@
     mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
     -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
   }
+
+  /* Section Divider */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, hsl(var(--gold-base) / 0.2), transparent);
+  }
+
+  /* Enhanced Glass Panel */
+  .glass-panel-deep {
+    @apply backdrop-blur-2xl border border-white/10;
+    background: rgba(255, 255, 255, 0.02);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
 }
 
 /* Noise Texture */

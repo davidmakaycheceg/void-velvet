@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 import { useState } from "react";
 
 interface BentoCardProps {
@@ -8,15 +8,15 @@ interface BentoCardProps {
   image: string;
   className?: string;
   delay?: number;
-  href?: string;
+  scrollTo?: string;
 }
 
-const BentoCard = ({ title, subtitle, image, className = "", delay = 0, href }: BentoCardProps) => {
+const BentoCard = ({ title, subtitle, image, className = "", delay = 0, scrollTo }: BentoCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleClick = () => {
-    if (href) {
-      window.open(href, '_blank', 'noopener,noreferrer');
+    if (scrollTo) {
+      document.getElementById(scrollTo)?.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -29,7 +29,7 @@ const BentoCard = ({ title, subtitle, image, className = "", delay = 0, href }: 
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleClick}
-      className={`group relative bg-void border border-white/10 rounded-2xl overflow-hidden cursor-pointer transition-all duration-700 ${className}`}
+      className={`group relative bg-void border border-white/10 rounded-2xl overflow-hidden cursor-pointer transition-all duration-700 hover:shadow-gold ${className}`}
     >
       {/* Background Image */}
       <div className="absolute inset-0 transition-all duration-700 ease-out">
@@ -39,7 +39,7 @@ const BentoCard = ({ title, subtitle, image, className = "", delay = 0, href }: 
           loading="lazy"
           className={`
             w-full h-full object-cover transition-all duration-700
-            ${isHovered ? 'opacity-60 scale-105 grayscale-0' : 'opacity-0 scale-100 grayscale'}
+            ${isHovered ? 'opacity-80 scale-105' : 'opacity-70 scale-100'}
           `}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-void via-void/50 to-transparent" />
@@ -65,13 +65,13 @@ const BentoCard = ({ title, subtitle, image, className = "", delay = 0, href }: 
           className="absolute bottom-6 right-6 md:bottom-8 md:right-8"
         >
           <div className="w-12 h-12 rounded-full border border-gold-base/50 bg-gold-base/10 backdrop-blur-sm flex items-center justify-center">
-            <ArrowUpRight className="w-5 h-5 text-gold-base" />
+            <ArrowDown className="w-5 h-5 text-gold-base" />
           </div>
         </motion.div>
       </div>
 
       {/* Hover Border */}
-      <div 
+      <div
         className={`
           absolute inset-0 rounded-2xl border-2 pointer-events-none transition-all duration-500
           ${isHovered ? 'border-gold-base/50' : 'border-transparent'}
@@ -107,6 +107,9 @@ const BentoGrid = () => {
           <h2 className="font-display font-bold text-heading-1 text-white mt-4">
             Tu Universo de <span className="text-gold-gradient">Elevación</span>
           </h2>
+          <p className="font-body text-white/40 mt-4 max-w-md mx-auto">
+            Explora cada pilar de tu transformación. Haz clic para descubrir más.
+          </p>
         </motion.div>
       </div>
 
@@ -119,7 +122,7 @@ const BentoGrid = () => {
           image="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=800&q=80"
           className="md:col-span-2 md:row-span-2"
           delay={0}
-          href="https://skybladefinal.lovable.app"
+          scrollTo="barberia"
         />
 
         {/* Library */}
@@ -129,7 +132,7 @@ const BentoGrid = () => {
           image="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=600&q=80"
           className="md:col-span-1 md:row-span-1"
           delay={0.1}
-          href="https://skypressfinal.lovable.app"
+          scrollTo="libreria"
         />
 
         {/* Jewelry - Tall */}
@@ -139,7 +142,7 @@ const BentoGrid = () => {
           image="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=80"
           className="md:col-span-1 md:row-span-2"
           delay={0.2}
-          href="https://skycartelfinal.lovable.app"
+          scrollTo="joyeria"
         />
 
         {/* Atelier */}
@@ -149,7 +152,7 @@ const BentoGrid = () => {
           image="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&q=80"
           className="md:col-span-1 md:row-span-1"
           delay={0.3}
-          href="https://skylabelfinal.lovable.app"
+          scrollTo="atelier"
         />
 
         {/* Podcast with Audio Wave */}
@@ -158,15 +161,15 @@ const BentoGrid = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          onClick={() => window.open('https://skyhub-tribe.lovable.app', '_blank', 'noopener,noreferrer')}
-          className="group relative bg-void border border-white/10 rounded-2xl overflow-hidden cursor-pointer md:col-span-1 md:row-span-1"
+          onClick={() => document.getElementById('podcast-section')?.scrollIntoView({ behavior: 'smooth' })}
+          className="group relative bg-void border border-white/10 rounded-2xl overflow-hidden cursor-pointer md:col-span-1 md:row-span-1 hover:shadow-gold transition-shadow duration-700"
         >
           <div className="absolute inset-0 transition-all duration-700 group-hover:opacity-60">
             <img
               src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=600&q=80"
               alt="Podcast"
               loading="lazy"
-              className="w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+              className="w-full h-full object-cover opacity-70 group-hover:opacity-80 transition-opacity duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-void via-void/50 to-transparent" />
           </div>
@@ -187,7 +190,7 @@ const BentoGrid = () => {
           image="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80"
           className="md:col-span-2 md:row-span-1"
           delay={0.5}
-          href="https://skyforgefinal.lovable.app"
+          scrollTo="gym"
         />
       </div>
     </section>

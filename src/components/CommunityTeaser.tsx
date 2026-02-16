@@ -3,7 +3,7 @@ import { Lock, Users } from "lucide-react";
 
 const CommunityTeaser = () => {
   return (
-    <section className="relative py-16 px-6 bg-void">
+    <section id="community" className="relative py-16 px-6 bg-void">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -28,7 +28,7 @@ const CommunityTeaser = () => {
           <h3 className="font-display font-bold text-heading-2 text-white mb-4">
             El <span className="text-gold-gradient">Vestuario VIP</span>
           </h3>
-          
+
           <div className="flex items-center justify-center gap-2 mb-4">
             <Users className="w-4 h-4 text-gold-base" />
             <span className="font-mono text-sm text-gold-base">
@@ -37,7 +37,7 @@ const CommunityTeaser = () => {
           </div>
 
           <p className="font-body text-white/50 max-w-md mx-auto mb-8">
-            Negocios cerrándose en tiempo real. Conexiones que transforman carreras. 
+            Negocios cerrándose en tiempo real. Conexiones que transforman carreras.
             Acceso exclusivo para miembros del Inner Circle.
           </p>
 

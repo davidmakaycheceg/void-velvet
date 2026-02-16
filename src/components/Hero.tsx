@@ -1,18 +1,35 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useMemo } from "react";
 import { ArrowDown } from "lucide-react";
+
+// Generate stable star positions
+const generateStars = (count: number) => {
+  const stars = [];
+  for (let i = 0; i < count; i++) {
+    stars.push({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 2 + 0.5,
+      delay: Math.random() * 4,
+      duration: Math.random() * 3 + 2,
+    });
+  }
+  return stars;
+};
 
 const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isButtonHovered, setIsButtonHovered] = useState(false);
-  
+  const stars = useMemo(() => generateStars(60), []);
+
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  
+
   const springConfig = { damping: 25, stiffness: 150 };
   const x = useSpring(mouseX, springConfig);
   const y = useSpring(mouseY, springConfig);
-  
+
   const rotateX = useTransform(y, [-300, 300], [5, -5]);
   const rotateY = useTransform(x, [-300, 300], [-5, 5]);
 
@@ -56,10 +73,33 @@ const Hero = () => {
     >
       {/* Atmospheric Background */}
       <div className="absolute inset-0 bg-void" />
-      
+
+      {/* Starfield */}
+      <div className="absolute inset-0 overflow-hidden">
+        {stars.map((star) => (
+          <motion.div
+            key={star.id}
+            animate={{ opacity: [0.1, 0.8, 0.1] }}
+            transition={{
+              duration: star.duration,
+              delay: star.delay,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="absolute rounded-full bg-gold-base/40"
+            style={{
+              left: `${star.x}%`,
+              top: `${star.y}%`,
+              width: star.size,
+              height: star.size,
+            }}
+          />
+        ))}
+      </div>
+
       {/* Animated Storm Clouds Effect */}
       <div className="absolute inset-0 opacity-30">
-        <div 
+        <div
           className="absolute inset-0"
           style={{
             background: `
@@ -71,9 +111,9 @@ const Hero = () => {
           }}
         />
       </div>
-      
+
       {/* Golden Light Ray */}
-      <div 
+      <div
         className="absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-[60%] pointer-events-none"
         style={{
           background: "radial-gradient(ellipse 50% 50% at 50% 0%, hsl(45 75% 52% / 0.08) 0%, transparent 70%)",
@@ -142,10 +182,23 @@ const Hero = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.9, duration: 0.8 }}
-          className="mt-8 font-body text-lg md:text-xl text-white/50 max-w-md mx-auto leading-relaxed"
+          className="mt-8 font-display font-semibold text-2xl md:text-3xl tracking-wide uppercase"
+          style={{ color: "hsl(43 60% 38%)" }}
         >
-          Un ecosistema exclusivo donde el hombre moderno 
-          <span className="text-gold-light"> asciende</span> hacia su mejor versión.
+          Sky is the limit
+        </motion.p>
+
+        {/* Gandhi Quote */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.0, duration: 0.8 }}
+          className="mt-6 font-body italic text-base md:text-lg text-white/40 max-w-lg mx-auto leading-relaxed"
+        >
+          "La forma más rápida de cambiar tu vida es cambiar lo que haces todos los días."
+          <span className="block mt-2 not-italic font-mono text-xs uppercase tracking-[0.2em] text-white/25">
+            — Mahatma Gandhi
+          </span>
         </motion.p>
 
         {/* CTA Button - Magnetic */}
@@ -161,11 +214,12 @@ const Hero = () => {
           <motion.button
             ref={buttonRef}
             style={{ x: buttonSpringX, y: buttonSpringY }}
+            onClick={() => document.getElementById('vision')?.scrollIntoView({ behavior: 'smooth' })}
             className={`
               relative px-8 py-4 rounded-full font-display font-semibold text-sm uppercase tracking-widest
               border transition-all duration-500 overflow-hidden
-              ${isButtonHovered 
-                ? 'bg-gold-base text-void border-gold-base' 
+              ${isButtonHovered
+                ? 'bg-gold-base text-void border-gold-base shadow-gold'
                 : 'bg-transparent text-gold-light border-gold-base/30 hover:border-gold-base/60'
               }
             `}
