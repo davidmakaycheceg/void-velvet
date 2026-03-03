@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Scissors, BookOpen, Gem, Shirt, Mic, Dumbbell, ArrowRight, X, ArrowLeft } from "lucide-react";
+import { Scissors, BookOpen, Gem, Shirt, Mic, Dumbbell, ArrowRight, X, ArrowLeft, Sparkles } from "lucide-react";
 import { useState } from "react";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
 // Iframe overlay for embedded service pages
 const ServiceOverlay = ({ url, title, onClose }: { url: string; title: string; onClose: () => void }) => {
@@ -198,25 +199,168 @@ const ServiceSection = ({
     );
 };
 
+// Barbería pricing categories
+const barberiaCategories = [
+  {
+    name: "Corte",
+    items: [
+      { service: "Corte Premium", price: "15€" },
+    ],
+  },
+  {
+    name: "Barbas",
+    items: [
+      { service: "Barba", price: "10€" },
+    ],
+  },
+  {
+    name: "Cejas",
+    items: [
+      { service: "Cejas", price: "4€" },
+      { service: "Diseño de cejas (hilo)", price: "5€" },
+      { service: "Diseño de cejas con tinte", price: "8€" },
+    ],
+  },
+  {
+    name: "Limpieza Facial",
+    items: [
+      { service: "Limpieza facial básica / Asesoramiento", price: "20€" },
+      { service: "Limpieza facial profunda / Asesoramiento", price: "30€" },
+    ],
+  },
+  {
+    name: "Decoloración & Mechas",
+    items: [
+      { service: "Decoloración", price: "85€" },
+      { service: "Decoloración + Corte", price: "95€" },
+      { service: "Mechas", price: "65€" },
+      { service: "Mechas + Corte", price: "75€" },
+    ],
+  },
+  {
+    name: "Packs",
+    items: [
+      { service: "Pack SKY IS THE LIMIT — Corte + Barba + Cejas", price: "22€" },
+    ],
+  },
+];
+
+const BarberiaSection = ({ onExplore }: { onExplore: (url: string, title: string) => void }) => (
+  <section id="barberia" className="relative py-20 md:py-28 px-6 bg-void overflow-hidden">
+    {/* Background glow */}
+    <div
+      className="absolute pointer-events-none"
+      style={{
+        top: "50%",
+        left: "80%",
+        transform: "translate(-50%, -50%)",
+        width: 500,
+        height: 500,
+        background: "radial-gradient(circle, hsl(45 75% 52% / 0.04) 0%, transparent 70%)",
+        filter: "blur(80px)",
+      }}
+    />
+
+    <div className="max-w-7xl mx-auto relative z-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+        {/* Image Side */}
+        <motion.div
+          initial={{ opacity: 0, x: -60 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <div className="relative group sticky top-24">
+            <div className="relative rounded-2xl overflow-hidden aspect-[4/3]">
+              <img
+                src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=800&q=80"
+                alt="La Barbería"
+                loading="lazy"
+                className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-void/60 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gold-base/0 group-hover:bg-gold-base/5 transition-colors duration-700" />
+            </div>
+            <div className="absolute -top-2 -left-2 w-8 h-8 border-t-2 border-l-2 border-gold-base/30 rounded-tl-lg" />
+            <div className="absolute -bottom-2 -right-2 w-8 h-8 border-b-2 border-r-2 border-gold-base/30 rounded-br-lg" />
+          </div>
+        </motion.div>
+
+        {/* Content Side */}
+        <motion.div
+          initial={{ opacity: 0, x: 60 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+        >
+          {/* Label */}
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-xl bg-gold-base/10 border border-gold-base/20 flex items-center justify-center">
+              <Scissors className="w-5 h-5 text-gold-base" />
+            </div>
+            <span className="font-mono text-xs uppercase tracking-[0.3em] text-gold-base/60">
+              // RITUALES DE ACERO
+            </span>
+          </div>
+
+          <h2 className="font-display font-bold text-heading-1 text-white mb-2">LA BARBERÍA</h2>
+          <p className="font-display text-lg text-gold-light/70 mb-6">Donde el detalle define al hombre.</p>
+          <p className="font-body text-white/50 leading-relaxed mb-8 max-w-lg">
+            Un santuario de cuidado masculino donde cada corte es una declaración de intención. Nuestros maestros barberos combinan técnicas clásicas con tendencias contemporáneas.
+          </p>
+
+          {/* Pricing Accordion */}
+          <Accordion type="multiple" className="space-y-3 mb-8">
+            {barberiaCategories.map((cat) => (
+              <AccordionItem
+                key={cat.name}
+                value={cat.name}
+                className="border border-white/10 rounded-xl overflow-hidden bg-white/[0.02] backdrop-blur-sm px-5"
+              >
+                <AccordionTrigger className="hover:no-underline py-4 gap-3">
+                  <span className="font-display text-sm uppercase tracking-wider text-white/90 flex items-center gap-2">
+                    <Sparkles className="w-3.5 h-3.5 text-gold-base" />
+                    {cat.name}
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="space-y-3 pb-2">
+                    {cat.items.map((item) => (
+                      <div
+                        key={item.service}
+                        className="flex items-center justify-between py-2 border-b border-white/5 last:border-0"
+                      >
+                        <span className="font-body text-sm text-white/60">{item.service}</span>
+                        <span className="font-display font-semibold text-gold-base text-sm shrink-0 ml-4">
+                          {item.price}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+
+          {/* CTA */}
+          <motion.button
+            whileHover={{ scale: 1.03, x: 4 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => onExplore("https://skybladefinal.lovable.app", "LA BARBERÍA")}
+            className="group flex items-center gap-3 px-6 py-3 rounded-full border border-gold-base/30 text-gold-light font-display text-sm uppercase tracking-wider hover:bg-gold-base/10 hover:border-gold-base/50 transition-all duration-300"
+          >
+            Reservar Cita
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+          </motion.button>
+        </motion.div>
+      </div>
+    </div>
+
+    <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-base/15 to-transparent" />
+  </section>
+);
+
 const services = [
-    {
-        id: "barberia",
-        label: "RITUALES DE ACERO",
-        title: "LA BARBERÍA",
-        subtitle: "Donde el detalle define al hombre.",
-        description:
-            "Un santuario de cuidado masculino donde cada corte es una declaración de intención. Nuestros maestros barberos combinan técnicas clásicas con tendencias contemporáneas para esculpir tu identidad visual con precisión milimétrica.",
-        features: [
-            "Corte signature personalizado",
-            "Arreglo de barba con toalla caliente",
-            "Tratamiento capilar premium",
-            "Ritual de skincare masculino",
-            "Ambiente exclusivo con whisky & café",
-        ],
-        image: "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=800&q=80",
-        icon: <Scissors className="w-5 h-5 text-gold-base" />,
-        href: "https://skybladefinal.lovable.app",
-    },
     {
         id: "libreria",
         label: "ARQUITECTURA MENTAL",
@@ -329,6 +473,9 @@ const ServiceSections = () => {
         <div className="relative">
             {/* Top section divider */}
             <div className="h-px bg-gradient-to-r from-transparent via-gold-base/20 to-transparent" />
+
+            {/* Custom Barbería Section with pricing */}
+            <BarberiaSection onExplore={handleExplore} />
 
             {services.map((service) => (
                 <ServiceSection
