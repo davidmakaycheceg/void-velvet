@@ -145,7 +145,7 @@ const BentoGrid = () => {
           image="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80"
           className="md:col-span-1 md:row-span-2"
           delay={0.2}
-          externalLink="https://orbit-boutique.lovable.app"
+          scrollTo="tienda"
         />
 
         {/* Podcast with Audio Wave */}
