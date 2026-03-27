@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Scissors, BookOpen, Mic, Dumbbell, ArrowRight, X, ArrowLeft, Sparkles } from "lucide-react";
+import { Scissors, BookOpen, Mic, Dumbbell, ArrowRight, X, ArrowLeft, Sparkles, ShoppingBag } from "lucide-react";
 import { useState } from "react";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
@@ -361,6 +361,25 @@ const BarberiaSection = ({ onExplore }: { onExplore: (url: string, title: string
 );
 
 const services = [
+    {
+        id: "tienda",
+        label: "ESTILO & EXCLUSIVIDAD",
+        title: "TIENDA",
+        subtitle: "Tu imagen habla antes que tú.",
+        description:
+            "Una boutique curada con las piezas más exclusivas en moda masculina, accesorios y lifestyle. Desde joyería artesanal hasta ropa de diseño — cada artículo ha sido seleccionado para elevar tu presencia y comunicar tu nivel.",
+        features: [
+            "Colecciones exclusivas SKY CLUB",
+            "Joyería y accesorios premium",
+            "Ropa de diseño seleccionada",
+            "Ediciones limitadas cada temporada",
+            "Envío discreto y empaquetado luxury",
+        ],
+        image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80",
+        icon: <ShoppingBag className="w-5 h-5 text-gold-base" />,
+        reversed: true,
+        href: "https://orbit-boutique.lovable.app",
+    },
     {
         id: "libreria",
         label: "ARQUITECTURA MENTAL",
