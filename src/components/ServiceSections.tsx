@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Scissors, BookOpen, Gem, Shirt, Mic, Dumbbell, ArrowRight, X, ArrowLeft, Sparkles } from "lucide-react";
+import { Scissors, BookOpen, Mic, Dumbbell, ArrowRight, X, ArrowLeft, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
