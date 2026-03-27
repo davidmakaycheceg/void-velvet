@@ -9,13 +9,16 @@ interface BentoCardProps {
   className?: string;
   delay?: number;
   scrollTo?: string;
+  externalLink?: string;
 }
 
-const BentoCard = ({ title, subtitle, image, className = "", delay = 0, scrollTo }: BentoCardProps) => {
+const BentoCard = ({ title, subtitle, image, className = "", delay = 0, scrollTo, externalLink }: BentoCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleClick = () => {
-    if (scrollTo) {
+    if (externalLink) {
+      window.open(externalLink, "_blank", "noopener,noreferrer");
+    } else if (scrollTo) {
       document.getElementById(scrollTo)?.scrollIntoView({ behavior: "smooth" });
     }
   };
