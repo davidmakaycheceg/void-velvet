@@ -153,9 +153,9 @@ const BentoGrid = () => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          onClick={() => document.getElementById('podcast-section')?.scrollIntoView({ behavior: 'smooth' })}
-          className="group relative bg-void border border-white/10 rounded-2xl overflow-hidden cursor-pointer md:col-span-1 md:row-span-1 hover:shadow-gold transition-shadow duration-700"
+          transition={{ duration: 0.8, delay: 0.3 }}
+          onClick={() => window.open("https://skyhub-tribe.lovable.app", "_blank", "noopener,noreferrer")}
+          className="group relative bg-void border border-white/10 rounded-2xl overflow-hidden cursor-pointer md:col-span-1 md:row-span-2 hover:shadow-gold transition-shadow duration-700"
         >
           <div className="absolute inset-0 transition-all duration-700 group-hover:opacity-60">
             <img

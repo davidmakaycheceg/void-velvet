@@ -381,43 +381,6 @@ const services = [
         href: "https://skypressfinal.lovable.app",
     },
     {
-        id: "joyeria",
-        label: "TÓTEMS DE PODER",
-        title: "JOYERÍA",
-        subtitle: "Cada pieza cuenta tu historia.",
-        description:
-            "Colecciones exclusivas de joyería masculina diseñadas para comunicar poder, gusto y sofisticación. Desde anillos signature hasta cadenas artesanales — cada pieza es un símbolo de tu ascenso.",
-        features: [
-            "Diseños exclusivos SKY CLUB",
-            "Materiales premium: oro, plata, titanio",
-            "Grabado personalizado",
-            "Ediciones limitadas trimestrales",
-            "Servicio de diseño a medida",
-        ],
-        image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&q=80",
-        icon: <Gem className="w-5 h-5 text-gold-base" />,
-        href: "https://skycartelfinal.lovable.app",
-    },
-    {
-        id: "atelier",
-        label: "TU SEGUNDA PIEL",
-        title: "ATELIER",
-        subtitle: "La ropa no te viste — te arma.",
-        description:
-            "Nuestro atelier combina sastrería artesanal con asesoría de imagen integral. Desde trajes a medida hasta capsule wardrobes estratégicos — cada prenda es una inversión en cómo el mundo te percibe.",
-        features: [
-            "Sastrería a medida italiana",
-            "Asesoría de imagen personal",
-            "Capsule wardrobe estratégico",
-            "Personal shopping VIP",
-            "Alteraciones express 24h",
-        ],
-        image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80",
-        icon: <Shirt className="w-5 h-5 text-gold-base" />,
-        reversed: true,
-        href: "https://skylabelfinal.lovable.app",
-    },
-    {
         id: "podcast-section",
         label: "FRECUENCIA ÉLITE",
         title: "PODCAST",
