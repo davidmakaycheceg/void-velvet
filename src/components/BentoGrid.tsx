@@ -135,7 +135,7 @@ const BentoGrid = () => {
           image="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=600&q=80"
           className="md:col-span-1 md:row-span-1"
           delay={0.1}
-          externalLink="https://skypressfinal.lovable.app"
+          scrollTo="libreria"
         />
 
         {/* Tienda */}
@@ -154,7 +154,7 @@ const BentoGrid = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          onClick={() => window.open("https://skyhub-tribe.lovable.app", "_blank", "noopener,noreferrer")}
+          onClick={() => document.getElementById('podcast-section')?.scrollIntoView({ behavior: 'smooth' })}
           className="group relative bg-void border border-white/10 rounded-2xl overflow-hidden cursor-pointer md:col-span-1 md:row-span-2 hover:shadow-gold transition-shadow duration-700"
         >
           <div className="absolute inset-0 transition-all duration-700 group-hover:opacity-60">
