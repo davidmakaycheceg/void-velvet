@@ -9,13 +9,16 @@ interface BentoCardProps {
   className?: string;
   delay?: number;
   scrollTo?: string;
+  externalLink?: string;
 }
 
-const BentoCard = ({ title, subtitle, image, className = "", delay = 0, scrollTo }: BentoCardProps) => {
+const BentoCard = ({ title, subtitle, image, className = "", delay = 0, scrollTo, externalLink }: BentoCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleClick = () => {
-    if (scrollTo) {
+    if (externalLink) {
+      window.open(externalLink, "_blank", "noopener,noreferrer");
+    } else if (scrollTo) {
       document.getElementById(scrollTo)?.scrollIntoView({ behavior: "smooth" });
     }
   };
@@ -132,27 +135,17 @@ const BentoGrid = () => {
           image="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=600&q=80"
           className="md:col-span-1 md:row-span-1"
           delay={0.1}
-          scrollTo="libreria"
+          externalLink="https://skypressfinal.lovable.app"
         />
 
-        {/* Jewelry - Tall */}
+        {/* Tienda */}
         <BentoCard
-          title="JOYERÍA"
-          subtitle="Tótems de Poder"
-          image="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=80"
+          title="TIENDA"
+          subtitle="Estilo & Exclusividad"
+          image="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80"
           className="md:col-span-1 md:row-span-2"
           delay={0.2}
-          scrollTo="joyeria"
-        />
-
-        {/* Atelier */}
-        <BentoCard
-          title="ATELIER"
-          subtitle="Tu Segunda Piel"
-          image="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&q=80"
-          className="md:col-span-1 md:row-span-1"
-          delay={0.3}
-          scrollTo="atelier"
+          externalLink="https://orbit-boutique.lovable.app"
         />
 
         {/* Podcast with Audio Wave */}
