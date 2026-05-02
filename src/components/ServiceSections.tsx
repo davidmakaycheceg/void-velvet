@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Scissors, BookOpen, Mic, Dumbbell, ArrowRight, X, ArrowLeft, Sparkles, ShoppingBag } from "lucide-react";
 import { useState } from "react";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { buildWhatsAppUrl, reserveServiceMessage, generalReserveMessage } from "@/lib/whatsapp";
 
 // Iframe overlay for embedded service pages
 const ServiceOverlay = ({ url, title, onClose }: { url: string; title: string; onClose: () => void }) => {
@@ -324,16 +325,25 @@ const BarberiaSection = ({ onExplore }: { onExplore: (url: string, title: string
                   </span>
                 </AccordionTrigger>
                 <AccordionContent>
-                  <div className="space-y-3 pb-2">
+                  <div className="space-y-2 pb-2">
                     {cat.items.map((item) => (
                       <div
                         key={item.service}
-                        className="flex items-center justify-between py-2 border-b border-white/5 last:border-0"
+                        className="flex items-center justify-between gap-3 py-2 border-b border-white/5 last:border-0"
                       >
-                        <span className="font-body text-sm text-white/60">{item.service}</span>
-                        <span className="font-display font-semibold text-gold-base text-sm shrink-0 ml-4">
+                        <span className="font-body text-sm text-white/60 flex-1 min-w-0">{item.service}</span>
+                        <span className="font-display font-semibold text-gold-base text-sm shrink-0">
                           {item.price}
                         </span>
+                        <a
+                          href={buildWhatsAppUrl(reserveServiceMessage(item.service, item.price))}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="shrink-0 px-3 py-1 rounded-full border border-gold-base/30 text-gold-light hover:bg-gold-base hover:text-void hover:border-gold-base transition-all duration-300 font-display text-[10px] uppercase tracking-wider"
+                          aria-label={`Reservar ${item.service} por WhatsApp`}
+                        >
+                          Reservar
+                        </a>
                       </div>
                     ))}
                   </div>
@@ -342,16 +352,29 @@ const BarberiaSection = ({ onExplore }: { onExplore: (url: string, title: string
             ))}
           </Accordion>
 
-          {/* CTA */}
-          <motion.button
-            whileHover={{ scale: 1.03, x: 4 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => onExplore("https://skybladefinal.lovable.app", "LA BARBERÍA")}
-            className="group flex items-center gap-3 px-6 py-3 rounded-full border border-gold-base/30 text-gold-light font-display text-sm uppercase tracking-wider hover:bg-gold-base/10 hover:border-gold-base/50 transition-all duration-300"
-          >
-            Reservar Cita
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-          </motion.button>
+          {/* CTAs */}
+          <div className="flex flex-wrap gap-3">
+            <motion.a
+              whileHover={{ scale: 1.03, x: 4 }}
+              whileTap={{ scale: 0.98 }}
+              href={buildWhatsAppUrl(generalReserveMessage())}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-3 px-6 py-3 rounded-full bg-gold-base text-void font-display text-sm uppercase tracking-wider hover:bg-gold-light transition-all duration-300 shadow-gold"
+            >
+              Reservar por WhatsApp
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+            </motion.a>
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => onExplore("https://skybladefinal.lovable.app", "LA BARBERÍA")}
+              className="group flex items-center gap-3 px-6 py-3 rounded-full border border-gold-base/30 text-gold-light font-display text-sm uppercase tracking-wider hover:bg-gold-base/10 hover:border-gold-base/50 transition-all duration-300"
+            >
+              Ver más
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+            </motion.button>
+          </div>
         </motion.div>
       </div>
     </div>

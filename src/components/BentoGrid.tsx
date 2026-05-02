@@ -32,7 +32,7 @@ const BentoCard = ({ title, subtitle, image, className = "", delay = 0, scrollTo
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleClick}
-      className={`group relative bg-void border border-white/10 rounded-2xl overflow-hidden cursor-pointer transition-all duration-700 hover:shadow-gold ${className}`}
+      className={`group relative bg-void border border-white/10 rounded-2xl overflow-hidden cursor-pointer transition-all duration-700 hover:shadow-gold min-h-[220px] ${className}`}
     >
       {/* Background Image */}
       <div className="absolute inset-0 transition-all duration-700 ease-out">
@@ -117,7 +117,7 @@ const BentoGrid = () => {
       </div>
 
       {/* Bento Grid */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 auto-rows-[200px] md:auto-rows-[180px]">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 md:auto-rows-[180px]">
         {/* Barbershop - Large */}
         <BentoCard
           title="LA BARBERÍA"

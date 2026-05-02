@@ -1,13 +1,14 @@
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Phone, Instagram, Clock, MessageCircle } from "lucide-react";
+import { buildWhatsAppUrl, generalReserveMessage } from "@/lib/whatsapp";
 
 const footerLinks = [
   { name: "La Barbería", href: "#barberia" },
+  { name: "Tienda", href: "#tienda" },
   { name: "Librería", href: "#libreria" },
-  { name: "Joyería", href: "#joyeria" },
-  { name: "Atelier", href: "#atelier" },
   { name: "Podcast", href: "#podcast-section" },
   { name: "Salud & Gym", href: "#gym" },
+  { name: "Membresía", href: "#membership" },
 ];
 
 const legalLinks = [
@@ -89,18 +90,53 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Coordinates */}
+          {/* Contact */}
           <div className="md:col-span-1">
             <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-white/40 mb-6">
-              Coordenadas
+              Contacto
             </h3>
-            <div className="font-mono text-xs text-white/30 space-y-2">
-              <p>LAT 39.4669° N</p>
-              <p>LONG 0.3808° W</p>
-              <p className="pt-4 text-white/20">
-                VALENCIA // SPAIN
-              </p>
-            </div>
+            <ul className="space-y-3 text-sm">
+              <li>
+                <a
+                  href={buildWhatsAppUrl(generalReserveMessage())}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-white/60 hover:text-gold-base transition-colors duration-300"
+                >
+                  <MessageCircle className="w-3.5 h-3.5 text-gold-base" />
+                  WhatsApp · Reservar
+                </a>
+              </li>
+              <li>
+                <a
+                  href="tel:+34677263672"
+                  className="flex items-center gap-2 text-white/60 hover:text-gold-base transition-colors duration-300"
+                >
+                  <Phone className="w-3.5 h-3.5 text-gold-base" />
+                  +34 677 26 36 72
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://instagram.com/skyclub"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-white/60 hover:text-gold-base transition-colors duration-300"
+                >
+                  <Instagram className="w-3.5 h-3.5 text-gold-base" />
+                  @skyclub
+                </a>
+              </li>
+              <li className="flex items-start gap-2 text-white/40 pt-2">
+                <Clock className="w-3.5 h-3.5 text-gold-base mt-0.5 shrink-0" />
+                <span className="font-mono text-xs leading-relaxed">
+                  Lun – Sáb<br />10:00 – 20:00
+                </span>
+              </li>
+              <li className="pt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-white/30">
+                Carrer Just Ramírez 2<br />Valencia · España
+              </li>
+            </ul>
           </div>
         </div>
 
