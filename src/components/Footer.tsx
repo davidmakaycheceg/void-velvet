@@ -1,13 +1,14 @@
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Phone, Instagram, Clock, MessageCircle } from "lucide-react";
+import { buildWhatsAppUrl, generalReserveMessage } from "@/lib/whatsapp";
 
 const footerLinks = [
   { name: "La Barbería", href: "#barberia" },
+  { name: "Tienda", href: "#tienda" },
   { name: "Librería", href: "#libreria" },
-  { name: "Joyería", href: "#joyeria" },
-  { name: "Atelier", href: "#atelier" },
   { name: "Podcast", href: "#podcast-section" },
   { name: "Salud & Gym", href: "#gym" },
+  { name: "Membresía", href: "#membership" },
 ];
 
 const legalLinks = [
