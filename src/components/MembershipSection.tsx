@@ -1,6 +1,10 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { Check, Key, Crown, Sparkles } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useStripeCheckout } from "@/hooks/useStripeCheckout";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 interface PricingCardProps {
   tier: string;
@@ -14,9 +18,10 @@ interface PricingCardProps {
   isPremium?: boolean;
   isFree?: boolean;
   delay?: number;
+  onCtaClick?: () => void;
 }
 
-const PricingCard = ({ tier, price, originalPrice, offerLabel, icon, features, cta, isPopular, isPremium, isFree, delay = 0 }: PricingCardProps) => {
+const PricingCard = ({ tier, price, originalPrice, offerLabel, icon, features, cta, isPopular, isPremium, isFree, delay = 0, onCtaClick }: PricingCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [displayPrice, setDisplayPrice] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
@@ -173,6 +178,7 @@ const PricingCard = ({ tier, price, originalPrice, offerLabel, icon, features, c
 
       {/* CTA Button */}
       <button
+        onClick={onCtaClick}
         className={`
           w-full py-4 rounded-full font-display font-semibold text-sm uppercase tracking-wider
           transition-all duration-300
@@ -192,9 +198,29 @@ const PricingCard = ({ tier, price, originalPrice, offerLabel, icon, features, c
 
 const MembershipSection = () => {
   const [sliderValue, setSliderValue] = useState(100);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { openCheckout, closeCheckout, isOpen, checkoutElement } = useStripeCheckout();
 
   const multiplier = 2.5 + (sliderValue / 100) * 5;
   const projectedValue = Math.round(sliderValue * multiplier);
+
+  const handleSubscribe = (priceId: string) => {
+    if (!user) {
+      navigate(`/auth?redirect=${encodeURIComponent("/#membership")}`);
+      return;
+    }
+    openCheckout({
+      priceId,
+      customerEmail: user.email ?? undefined,
+      userId: user.id,
+      returnUrl: `${window.location.origin}/checkout/return?session_id={CHECKOUT_SESSION_ID}`,
+    });
+  };
+
+  const handleFree = () => {
+    if (!user) navigate("/auth");
+  };
 
   return (
     <section id="membership" className="relative py-24 md:py-32 px-6 bg-void overflow-hidden">
@@ -230,6 +256,7 @@ const MembershipSection = () => {
             features={["Acceso Digital Básico", "Contenido Comunitario", "Newsletter Semanal", "Comunidad Discord"]}
             cta="Empezar Gratis"
             delay={0.1}
+            onCtaClick={handleFree}
           />
           <PricingCard
             tier="NIVEL ATMOSFÉRICO"
@@ -241,6 +268,7 @@ const MembershipSection = () => {
             cta="Elevarse"
             isPopular
             delay={0.2}
+            onCtaClick={() => handleSubscribe("sky_atmospheric_monthly")}
           />
           <PricingCard
             tier="CÍRCULO INTERNO"
@@ -250,8 +278,18 @@ const MembershipSection = () => {
             cta="Reclamar Trono"
             isPremium
             delay={0.3}
+            onCtaClick={() => handleSubscribe("sky_inner_circle_monthly")}
           />
         </div>
+
+        <Dialog open={isOpen} onOpenChange={(o) => !o && closeCheckout()}>
+          <DialogContent className="max-w-2xl bg-void border-white/10 text-white max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="font-display text-gold-gradient">Completa tu suscripción</DialogTitle>
+            </DialogHeader>
+            {checkoutElement}
+          </DialogContent>
+        </Dialog>
 
         {/* ROI Calculator */}
         <motion.div
