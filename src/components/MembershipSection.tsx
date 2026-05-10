@@ -178,6 +178,7 @@ const PricingCard = ({ tier, price, originalPrice, offerLabel, icon, features, c
 
       {/* CTA Button */}
       <button
+        onClick={onCtaClick}
         className={`
           w-full py-4 rounded-full font-display font-semibold text-sm uppercase tracking-wider
           transition-all duration-300
