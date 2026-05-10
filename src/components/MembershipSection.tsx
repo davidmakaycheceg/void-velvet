@@ -208,14 +208,10 @@ const MembershipSection = () => {
   const projectedValue = Math.round(sliderValue * multiplier);
 
   const handleSubscribe = (priceId: string) => {
-    if (!user) {
-      navigate(`/auth?redirect=${encodeURIComponent("/#membership")}`);
-      return;
-    }
     openCheckout({
       priceId,
-      customerEmail: user.email ?? undefined,
-      userId: user.id,
+      customerEmail: user?.email ?? undefined,
+      userId: user?.id ?? "",
       returnUrl: `${window.location.origin}/checkout/return?session_id={CHECKOUT_SESSION_ID}`,
     });
   };
