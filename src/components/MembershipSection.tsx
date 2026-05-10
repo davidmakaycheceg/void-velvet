@@ -198,9 +198,29 @@ const PricingCard = ({ tier, price, originalPrice, offerLabel, icon, features, c
 
 const MembershipSection = () => {
   const [sliderValue, setSliderValue] = useState(100);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { openCheckout, closeCheckout, isOpen, checkoutElement } = useStripeCheckout();
 
   const multiplier = 2.5 + (sliderValue / 100) * 5;
   const projectedValue = Math.round(sliderValue * multiplier);
+
+  const handleSubscribe = (priceId: string) => {
+    if (!user) {
+      navigate(`/auth?redirect=${encodeURIComponent("/#membership")}`);
+      return;
+    }
+    openCheckout({
+      priceId,
+      customerEmail: user.email ?? undefined,
+      userId: user.id,
+      returnUrl: `${window.location.origin}/checkout/return?session_id={CHECKOUT_SESSION_ID}`,
+    });
+  };
+
+  const handleFree = () => {
+    if (!user) navigate("/auth");
+  };
 
   return (
     <section id="membership" className="relative py-24 md:py-32 px-6 bg-void overflow-hidden">
@@ -236,6 +256,7 @@ const MembershipSection = () => {
             features={["Acceso Digital Básico", "Contenido Comunitario", "Newsletter Semanal", "Comunidad Discord"]}
             cta="Empezar Gratis"
             delay={0.1}
+            onCtaClick={handleFree}
           />
           <PricingCard
             tier="NIVEL ATMOSFÉRICO"
@@ -247,6 +268,7 @@ const MembershipSection = () => {
             cta="Elevarse"
             isPopular
             delay={0.2}
+            onCtaClick={() => handleSubscribe("sky_atmospheric_monthly")}
           />
           <PricingCard
             tier="CÍRCULO INTERNO"
@@ -256,8 +278,18 @@ const MembershipSection = () => {
             cta="Reclamar Trono"
             isPremium
             delay={0.3}
+            onCtaClick={() => handleSubscribe("sky_inner_circle_monthly")}
           />
         </div>
+
+        <Dialog open={isOpen} onOpenChange={(o) => !o && closeCheckout()}>
+          <DialogContent className="max-w-2xl bg-void border-white/10 text-white max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="font-display text-gold-gradient">Completa tu suscripción</DialogTitle>
+            </DialogHeader>
+            {checkoutElement}
+          </DialogContent>
+        </Dialog>
 
         {/* ROI Calculator */}
         <motion.div
