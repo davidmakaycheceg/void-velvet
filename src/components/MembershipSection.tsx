@@ -127,7 +127,7 @@ const PricingCard = ({ tier, price, originalPrice, offerLabel, icon, features, c
 
       {/* Premium Glow */}
       {isPremium && (
-        <div className="absolute inset-0 rounded-3xl shadow-gold-glow opacity-30" />
+        <div className="absolute inset-0 rounded-3xl shadow-gold-glow opacity-30 pointer-events-none" />
       )}
 
       {/* Icon */}
@@ -178,8 +178,10 @@ const PricingCard = ({ tier, price, originalPrice, offerLabel, icon, features, c
 
       {/* CTA Button */}
       <button
+        type="button"
         onClick={onCtaClick}
         className={`
+          relative z-20 cursor-pointer
           w-full py-4 rounded-full font-display font-semibold text-sm uppercase tracking-wider
           transition-all duration-300
           ${isPremium
