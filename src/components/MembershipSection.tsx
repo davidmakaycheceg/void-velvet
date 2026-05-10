@@ -1,6 +1,10 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { Check, Key, Crown, Sparkles } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useStripeCheckout } from "@/hooks/useStripeCheckout";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 interface PricingCardProps {
   tier: string;
@@ -14,9 +18,10 @@ interface PricingCardProps {
   isPremium?: boolean;
   isFree?: boolean;
   delay?: number;
+  onCtaClick?: () => void;
 }
 
-const PricingCard = ({ tier, price, originalPrice, offerLabel, icon, features, cta, isPopular, isPremium, isFree, delay = 0 }: PricingCardProps) => {
+const PricingCard = ({ tier, price, originalPrice, offerLabel, icon, features, cta, isPopular, isPremium, isFree, delay = 0, onCtaClick }: PricingCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [displayPrice, setDisplayPrice] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
