@@ -7,8 +7,8 @@ const footerLinks = [
   { name: "Tienda", href: "#tienda" },
   { name: "Librería", href: "#libreria" },
   { name: "Podcast", href: "#podcast-section" },
-  { name: "Salud & Gym", href: "#gym" },
-  { name: "Membresía", href: "#membership" },
+  { name: "Salud & Bienestar", href: "#gym" },
+  { name: "Pagos únicos", href: "#membership" },
 ];
 
 const legalLinks = [

@@ -7,8 +7,6 @@ import MembershipSection from "@/components/MembershipSection";
 import Testimonials from "@/components/Testimonials";
 import Marquee from "@/components/Marquee";
 import PodcastVisualizer from "@/components/PodcastVisualizer";
-import CommunityTeaser from "@/components/CommunityTeaser";
-import TransformationSlider from "@/components/TransformationSlider";
 import ConciergeButton from "@/components/ConciergeButton";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import Footer from "@/components/Footer";
@@ -42,12 +40,6 @@ const Index = () => {
 
       {/* Podcast Visualizer - Live Signal */}
       <PodcastVisualizer />
-
-      {/* Community Teaser - The Locker Room */}
-      <CommunityTeaser />
-
-      {/* Transformation Slider - The Mirror */}
-      <TransformationSlider />
 
       {/* Footer - Base Operations */}
       <Footer />

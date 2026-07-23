@@ -25,11 +25,11 @@ const CheckoutReturn = () => {
           )}
         </div>
         <h1 className="font-display font-bold text-3xl text-white mb-3">
-          {sessionId ? "Bienvenido al Club" : "Algo no salió bien"}
+          {sessionId ? "Pago recibido" : "Algo no salió bien"}
         </h1>
         <p className="text-white/60 mb-8">
           {sessionId
-            ? "Tu ascensión está en marcha. Recibirás un correo de confirmación."
+            ? "Tu elevación está en marcha. Recibirás el formulario de personalización en tu email."
             : "No encontramos información de tu pago."}
         </p>
         <Button variant="gold" size="lg" onClick={() => navigate("/")}>

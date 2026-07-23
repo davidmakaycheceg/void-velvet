@@ -1,18 +1,39 @@
 import { motion } from "framer-motion";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, ArrowRight, CalendarCheck } from "lucide-react";
 import { useState } from "react";
+
+const BOOKSY_URL = "https://booksy.com/es-es/167828_sky-club_barberia_58087_valencia";
+
+interface CardAction {
+  label: string;
+  scrollTo?: string;
+  externalLink?: string;
+  variant?: "primary" | "secondary";
+}
 
 interface BentoCardProps {
   title: string;
   subtitle: string;
+  description?: string;
   image: string;
   className?: string;
   delay?: number;
   scrollTo?: string;
   externalLink?: string;
+  actions?: CardAction[];
 }
 
-const BentoCard = ({ title, subtitle, image, className = "", delay = 0, scrollTo, externalLink }: BentoCardProps) => {
+const BentoCard = ({
+  title,
+  subtitle,
+  description,
+  image,
+  className = "",
+  delay = 0,
+  scrollTo,
+  externalLink,
+  actions,
+}: BentoCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleClick = () => {
@@ -20,6 +41,15 @@ const BentoCard = ({ title, subtitle, image, className = "", delay = 0, scrollTo
       window.open(externalLink, "_blank", "noopener,noreferrer");
     } else if (scrollTo) {
       document.getElementById(scrollTo)?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handleActionClick = (event: React.MouseEvent, action: CardAction) => {
+    event.stopPropagation();
+    if (action.externalLink) {
+      window.open(action.externalLink, "_blank", "noopener,noreferrer");
+    } else if (action.scrollTo) {
+      document.getElementById(action.scrollTo)?.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -58,6 +88,34 @@ const BentoCard = ({ title, subtitle, image, className = "", delay = 0, scrollTo
             {title}
           </h3>
           <p className="font-body text-sm text-white/50">{subtitle}</p>
+          {description && (
+            <p className="font-body text-sm text-white/70 leading-relaxed mt-3 max-w-lg">
+              {description}
+            </p>
+          )}
+          {actions && (
+            <div className="flex flex-wrap gap-3 mt-5">
+              {actions.map((action) => (
+                <button
+                  key={action.label}
+                  type="button"
+                  onClick={(event) => handleActionClick(event, action)}
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-full font-display text-[11px] uppercase tracking-wider transition-all duration-300 ${
+                    action.variant === "primary"
+                      ? "bg-gold-base text-void hover:bg-gold-light"
+                      : "border border-white/20 text-white/80 hover:border-gold-base/50 hover:text-gold-light"
+                  }`}
+                >
+                  {action.variant === "primary" ? (
+                    <CalendarCheck className="w-3.5 h-3.5" />
+                  ) : (
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  )}
+                  {action.label}
+                </button>
+              ))}
+            </div>
+          )}
         </motion.div>
 
         {/* Arrow Button */}
@@ -94,9 +152,9 @@ const AudioWave = () => (
 
 const BentoGrid = () => {
   return (
-    <section id="vision" className="relative py-24 md:py-32 px-6 bg-void">
+    <section id="vision" className="relative py-20 md:py-24 px-6 bg-void">
       {/* Section Header */}
-      <div className="max-w-7xl mx-auto mb-16">
+      <div className="max-w-7xl mx-auto mb-8 md:mb-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -121,11 +179,16 @@ const BentoGrid = () => {
         {/* Barbershop - Large */}
         <BentoCard
           title="LA BARBERÍA"
-          subtitle="Rituales de Acero"
+          subtitle="Rituales de acero"
+          description="Barbería premium para corte, barba, cejas, limpiezas faciales y color. Precisión, presencia y cuidado masculino sin ruido."
           image="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=800&q=80"
           className="md:col-span-2 md:row-span-2"
           delay={0}
           scrollTo="barberia"
+          actions={[
+            { label: "Reservar ahora", externalLink: BOOKSY_URL, variant: "primary" },
+            { label: "Ver más", scrollTo: "barberia", variant: "secondary" },
+          ]}
         />
 
         {/* Library */}
@@ -142,7 +205,7 @@ const BentoGrid = () => {
         <BentoCard
           title="TIENDA"
           subtitle="Estilo & Exclusividad"
-          image="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80"
+          image="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80"
           className="md:col-span-1 md:row-span-2"
           delay={0.2}
           scrollTo="tienda"
@@ -178,8 +241,8 @@ const BentoGrid = () => {
 
         {/* Health Club - Wide */}
         <BentoCard
-          title="SALUD & GYM"
-          subtitle="Ingeniería Biológica"
+          title="SALUD & BIENESTAR"
+          subtitle="Nutrición, imagen y rendimiento"
           image="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80"
           className="md:col-span-2 md:row-span-1"
           delay={0.5}

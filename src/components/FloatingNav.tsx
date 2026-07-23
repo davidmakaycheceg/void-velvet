@@ -1,14 +1,14 @@
 import { motion } from "framer-motion";
-import { Home, Crown, Eye, Mic, Users, Scissors, MapPin } from "lucide-react";
+import { Dumbbell, Eye, HeartPulse, Home, MapPin, Mic, Scissors } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const navItems = [
   { icon: Home, label: "Inicio", href: "#home" },
   { icon: Eye, label: "Visión", href: "#vision" },
   { icon: Scissors, label: "Servicios", href: "#barberia" },
-  { icon: Crown, label: "Membresía", href: "#membership" },
+  { icon: HeartPulse, label: "Salud", href: "#gym" },
+  { icon: Dumbbell, label: "Pagos", href: "#membership" },
   { icon: Mic, label: "Podcast", href: "#podcast-section" },
-  { icon: Users, label: "Comunidad", href: "#community" },
   { icon: MapPin, label: "Contacto", href: "#footer" },
 ];
 
