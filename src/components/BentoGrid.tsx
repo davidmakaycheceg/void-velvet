@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowDown, ArrowRight, CalendarCheck } from "lucide-react";
 import { useState } from "react";
 
-const BOOKSY_URL = "https://booksy.com/es-es/167828_sky-club_barberia_58087_valencia";
+const INSTAGRAM_URL = "https://www.instagram.com/skyclub_es/";
 
 interface CardAction {
   label: string;
@@ -180,13 +180,13 @@ const BentoGrid = () => {
         <BentoCard
           title="LA BARBERÍA"
           subtitle="Rituales de acero"
-          description="Barbería premium para corte, barba, cejas, limpiezas faciales y color. Precisión, presencia y cuidado masculino sin ruido."
+          description="En Sky Club creemos que una gran transformación comienza por la imagen. Mediante un estudio de visagismo personalizado, diseñamos una apariencia que refleje quién eres y quién quieres llegar a ser, porque cuidar de ti no es vanidad: es el primer paso para ganar confianza, presencia y avanzar con seguridad hacia tus objetivos."
           image="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=800&q=80"
           className="md:col-span-2 md:row-span-2"
           delay={0}
           scrollTo="barberia"
           actions={[
-            { label: "Reservar ahora", externalLink: BOOKSY_URL, variant: "primary" },
+            { label: "Reservar", externalLink: INSTAGRAM_URL, variant: "primary" },
             { label: "Ver más", scrollTo: "barberia", variant: "secondary" },
           ]}
         />

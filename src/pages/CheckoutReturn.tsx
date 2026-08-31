@@ -29,7 +29,7 @@ const CheckoutReturn = () => {
         </h1>
         <p className="text-white/60 mb-8">
           {sessionId
-            ? "Tu elevación está en marcha. Recibirás el formulario de personalización en tu email."
+            ? "Tu plan está en marcha. Recibirás el formulario express para que la IA prepare tu dieta, rutina o pack personalizado."
             : "No encontramos información de tu pago."}
         </p>
         <Button variant="gold" size="lg" onClick={() => navigate("/")}>

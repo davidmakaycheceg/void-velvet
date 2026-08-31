@@ -8,7 +8,7 @@ import Testimonials from "@/components/Testimonials";
 import Marquee from "@/components/Marquee";
 import PodcastVisualizer from "@/components/PodcastVisualizer";
 import ConciergeButton from "@/components/ConciergeButton";
-import WhatsAppFloat from "@/components/WhatsAppFloat";
+import InstagramFloat from "@/components/WhatsAppFloat";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -47,8 +47,8 @@ const Index = () => {
       {/* Concierge FAB */}
       <ConciergeButton />
 
-      {/* WhatsApp quick reserve */}
-      <WhatsAppFloat />
+      {/* Instagram quick reserve */}
+      <InstagramFloat />
     </main>
   );
 };

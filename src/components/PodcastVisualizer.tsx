@@ -1,18 +1,25 @@
 import { motion } from "framer-motion";
-import { ExternalLink, Pause, Play, Radio } from "lucide-react";
+import { ArrowRight, ExternalLink, Headphones, Pause, Play, Radio } from "lucide-react";
 import { useRef, useState } from "react";
 import episodioAudio from "@/assets/episodio-42.m4a";
 
-const ownChannelVideos = [
-  {
-    title: "Primer vídeo del canal propio",
-    meta: "Canal Sky Club",
-    url: "https://www.youtube.com/results?search_query=Sky+Club+primer+video+canal+propio",
-  },
+const skyClubChannel = {
+  title: "Podcast del Club",
+  description:
+    "El canal principal de Sky Club: conversaciones para construir criterio, ambición y una vida con más dirección.",
+  url: "https://www.youtube.com/results?search_query=Sky+Club+Podcast+Sky+is+the+limit",
+};
+
+const featuredSkyClubEpisodes = [
   {
     title: "1 podcast Sky is the limit",
-    meta: "Podcast Sky Club",
+    meta: "Canal principal",
     url: "https://www.youtube.com/results?search_query=%221+podcast%22+%22Sky+is+the+limit%22+%22Sky+Club%22",
+  },
+  {
+    title: "Conversaciones del Club",
+    meta: "Selección interna",
+    url: "https://www.youtube.com/results?search_query=Sky+Club+podcast+desarrollo+personal",
   },
 ];
 
@@ -23,11 +30,11 @@ const podcastPillars = [
     channels: [
       {
         name: "El Podcast de Marian Rojas Estapé",
-        episode: "Cómo gestionar las personas y situaciones que nos estresan (El Cortisol)",
+        episode: "Cómo gestionar las personas y situaciones que nos estresan (el cortisol)",
         url: "https://www.youtube.com/watch?v=RI_dIDTD06U",
       },
       {
-        name: "Tim Ferriss · The Tim Ferriss Show",
+        name: "Tim Ferriss - The Tim Ferriss Show",
         episode: "Define tus miedos en lugar de tus metas (Fear-setting)",
         url: "https://www.youtube.com/watch?v=5J6jAC6XxAI",
       },
@@ -40,7 +47,7 @@ const podcastPillars = [
       {
         name: "Value School",
         episode: "Los pilares de la salud financiera y la inversión indexada",
-        url: "https://www.youtube.com/results?search_query=Value+School+salud+financiera+inversion+indexada",
+        url: "https://valueschool.es/curso-practico-inversion-indexada/",
       },
       {
         name: "Tengo Un Plan",
@@ -54,19 +61,19 @@ const podcastPillars = [
     title: "Hábitos Atómicos, Productividad y Disciplina",
     channels: [
       {
-        name: "Andrew Huberman · Huberman Lab",
-        episode: "Cómo optimizar tu sueño y energía diaria (Optimize Your Sleep)",
-        url: "https://www.youtube.com/watch?v=h2aWYjSA1Jc",
+        name: "Andrew Huberman - Huberman Lab",
+        episode: "Sleep Toolkit: herramientas para optimizar sueño, energía y horarios",
+        url: "https://www.hubermanlab.com/episode/sleep-toolkit-tools-for-optimizing-sleep-and-sleep-wake-timing",
       },
       {
         name: "El Estoico",
         episode: "Cómo aplicar la Dicotomía del Control para eliminar la ansiedad",
-        url: "https://www.youtube.com/results?search_query=El+Estoico+Dicotomia+del+Control+ansiedad",
+        url: "https://elestoico.com/dicotomia-control/",
       },
       {
-        name: "Diario Estoico / Ryan Holiday · The Daily Stoic",
+        name: "Diario Estoico / Ryan Holiday - The Daily Stoic",
         episode: "El obstáculo es el camino (The Obstacle is the Way)",
-        url: "https://www.youtube.com/watch?v=Er7eMj9JOW8",
+        url: "https://dailystoic.com/turn-the-tables-ryan-holiday-reflects-on-10-years-of-the-obstacle-is-the-way/",
       },
     ],
   },
@@ -104,14 +111,14 @@ const PodcastVisualizer = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const togglePlay = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
+    if (!audioRef.current) return;
+
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
     }
+    setIsPlaying(!isPlaying);
   };
 
   const handleAudioEnd = () => {
@@ -135,22 +142,18 @@ const PodcastVisualizer = () => {
             Podcast <span className="text-gold-gradient">Sky Club</span>
           </h2>
           <p className="font-body text-white/50 max-w-2xl">
-            Conversaciones y canales para mentalidad, finanzas, hábitos y disciplina. Cada botón abre el vídeo correspondiente en una pestaña nueva.
+            Primero el canal del club. Después, una biblioteca recomendada dividida en tres pilares para entrenar mente, dinero y disciplina.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-6 mb-14">
+        <div className="grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-6 mb-14">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="rounded-2xl border border-white/10 bg-white/[0.02] p-6"
+            className="rounded-2xl border border-gold-base/25 bg-white/[0.03] p-6"
           >
-            <audio
-              ref={audioRef}
-              src={episodioAudio}
-              onEnded={handleAudioEnd}
-            />
+            <audio ref={audioRef} src={episodioAudio} onEnded={handleAudioEnd} />
 
             <div className="flex items-center gap-6 mb-8">
               <motion.button
@@ -175,10 +178,10 @@ const PodcastVisualizer = () => {
                   </span>
                 </div>
                 <h3 className="font-display font-semibold text-white text-lg md:text-xl">
-                  Episodio 42 — La Psicología del Dinero
+                  Episodio 42 - La Psicología del Dinero
                 </h3>
                 <p className="font-body text-white/40 text-sm">
-                  Con Alejandro Romero · 45 min
+                  Con Alejandro Romero - 45 min
                 </p>
               </div>
             </div>
@@ -186,32 +189,51 @@ const PodcastVisualizer = () => {
             <AudioBars isPlaying={isPlaying} />
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {ownChannelVideos.map((video, index) => (
-              <motion.a
-                key={video.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                href={video.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group rounded-2xl border border-white/10 bg-white/[0.02] p-6 min-h-[220px] flex flex-col justify-between hover:border-gold-base/40 transition-colors duration-300"
-              >
-                <div>
-                  <span className="font-mono text-xs uppercase tracking-[0.2em] text-gold-base/60">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="rounded-2xl border border-white/10 bg-white/[0.02] p-6"
+          >
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-10 h-10 rounded-xl bg-gold-base/10 border border-gold-base/20 flex items-center justify-center">
+                <Headphones className="w-5 h-5 text-gold-base" />
+              </div>
+              <span className="font-mono text-xs uppercase tracking-[0.3em] text-gold-base/60">
+                // CANAL PRINCIPAL
+              </span>
+            </div>
+            <h3 className="font-display text-3xl text-white mb-3">{skyClubChannel.title}</h3>
+            <p className="font-body text-white/50 leading-relaxed mb-6">
+              {skyClubChannel.description}
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+              {featuredSkyClubEpisodes.map((video) => (
+                <a
+                  key={video.title}
+                  href={video.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group rounded-xl border border-white/10 bg-white/[0.03] px-4 py-4 hover:border-gold-base/40 transition-colors duration-300"
+                >
+                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-gold-base/60">
                     {video.meta}
                   </span>
-                  <h3 className="font-display text-2xl text-white mt-4">{video.title}</h3>
-                </div>
-                <span className="inline-flex items-center gap-2 font-display text-sm uppercase tracking-wider text-gold-light">
-                  Ver vídeo
-                  <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-                </span>
-              </motion.a>
-            ))}
-          </div>
+                  <span className="block font-display text-lg text-white mt-2">{video.title}</span>
+                </a>
+              ))}
+            </div>
+            <a
+              href={skyClubChannel.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 font-display text-sm uppercase tracking-wider text-gold-light hover:text-gold-base transition-colors"
+            >
+              Entrar al canal
+              <ArrowRight className="w-4 h-4" />
+            </a>
+          </motion.div>
         </div>
 
         <div>
@@ -219,7 +241,7 @@ const PodcastVisualizer = () => {
             <div className="w-10 h-10 rounded-xl bg-gold-base/10 border border-gold-base/20 flex items-center justify-center">
               <Radio className="w-5 h-5 text-gold-base" />
             </div>
-            <h3 className="font-display text-heading-2 text-white">Hosts destacados / canales</h3>
+            <h3 className="font-display text-heading-2 text-white">Recomendaciones por pilares</h3>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -250,7 +272,7 @@ const PodcastVisualizer = () => {
                         {channel.episode}
                       </span>
                       <span className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-gold-base/70 mt-4">
-                        Abrir vídeo
+                        Abrir recurso
                         <ExternalLink className="w-3.5 h-3.5" />
                       </span>
                     </a>

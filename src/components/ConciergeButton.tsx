@@ -1,6 +1,8 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, Crown, X, Users } from "lucide-react";
+import { Crown, Instagram, X, Users } from "lucide-react";
 import { useState } from "react";
+
+const INSTAGRAM_URL = "https://www.instagram.com/skyclub_es/";
 
 const ConciergeButton = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -102,20 +104,20 @@ const ConciergeButton = () => {
 
               <div className="space-y-3">
                 <a
-                  href="https://wa.me/34677263672"
+                  href={INSTAGRAM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 w-full p-4 rounded-xl bg-white/5 border border-white/10 hover:border-gold-base/30 transition-colors duration-300"
                 >
-                  <MessageCircle className="w-5 h-5 text-gold-base" />
+                  <Instagram className="w-5 h-5 text-gold-base" />
                   <div className="text-left">
-                    <span className="font-display font-semibold text-white text-sm block">WhatsApp</span>
-                    <span className="text-white/40 text-xs">Respuesta inmediata</span>
+                    <span className="font-display font-semibold text-white text-sm block">Instagram</span>
+                    <span className="text-white/40 text-xs">Reservas y consultas</span>
                   </div>
                 </a>
 
                 <a
-                  href="https://yeasyapp.com/#/commerce/4e922d95-5660-4e1e-b687-e6e1c45b9169"
+                  href={INSTAGRAM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 w-full p-4 rounded-xl bg-gold-base/10 border border-gold-base/30 hover:bg-gold-base/20 transition-colors duration-300"

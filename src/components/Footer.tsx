@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { ArrowUpRight, Phone, Instagram, Clock, MessageCircle } from "lucide-react";
-import { buildWhatsAppUrl, generalReserveMessage } from "@/lib/whatsapp";
+import { ArrowUpRight, Phone, Instagram, Clock } from "lucide-react";
+
+const INSTAGRAM_URL = "https://www.instagram.com/skyclub_es/";
 
 const footerLinks = [
   { name: "La Barbería", href: "#barberia" },
@@ -98,13 +99,13 @@ const Footer = () => {
             <ul className="space-y-3 text-sm">
               <li>
                 <a
-                  href={buildWhatsAppUrl(generalReserveMessage())}
+                  href={INSTAGRAM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-white/60 hover:text-gold-base transition-colors duration-300"
                 >
-                  <MessageCircle className="w-3.5 h-3.5 text-gold-base" />
-                  WhatsApp · Reservar
+                  <Instagram className="w-3.5 h-3.5 text-gold-base" />
+                  Instagram · Reservar
                 </a>
               </li>
               <li>
@@ -118,13 +119,13 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="https://instagram.com/skyclub"
+                  href={INSTAGRAM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-white/60 hover:text-gold-base transition-colors duration-300"
                 >
                   <Instagram className="w-3.5 h-3.5 text-gold-base" />
-                  @skyclub
+                  @skyclub_es
                 </a>
               </li>
               <li className="flex items-start gap-2 text-white/40 pt-2">

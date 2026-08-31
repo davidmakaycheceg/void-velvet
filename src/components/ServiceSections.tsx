@@ -4,25 +4,31 @@ import {
   ArrowRight,
   BookOpen,
   CalendarCheck,
+  ClipboardList,
   Droplets,
   Dumbbell,
   ExternalLink,
   HeartPulse,
   Leaf,
+  MailCheck,
   Scissors,
   ShoppingBag,
+  Sparkles,
+  Video,
   X,
 } from "lucide-react";
 import { useState } from "react";
-import { buildWhatsAppUrl, generalReserveMessage } from "@/lib/whatsapp";
+import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
-const BOOKSY_URL = "https://booksy.com/es-es/167828_sky-club_barberia_58087_valencia";
-const SKY_STORE_URL = "https://yeasyapp.com/#/commerce/4e922d95-5660-4e1e-b687-e6e1c45b9169";
+const INSTAGRAM_URL = "https://www.instagram.com/skyclub_es/";
+const SKY_STORE_MEN_URL = "https://hormaycuero.lovable.app";
+const SKY_STORE_WOMEN_URL = "https://coqueta.lovable.app";
+const FUXION_IMAGE_URL = "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/productDetails/PE/PE_144134_EXT_29092020_184510.jpg";
 const FUXION_PARTNER_URL = buildWhatsAppUrl(
   "Hola SKY CLUB, quiero el enlace de compra partner para bebidas nutricionales Fuxion.",
 );
 const MARY_KAY_PARTNER_URL = buildWhatsAppUrl(
-  "Hola SKY CLUB, quiero el enlace de compra partner para alta cosmética Mary Kay.",
+  "Hola SKY CLUB, quiero asesoramiento para comprar Mary Kay y recibir mi link personalizado.",
 );
 
 // Iframe overlay for embedded service pages
@@ -86,6 +92,7 @@ interface ServiceSectionProps {
   icon: React.ReactNode;
   href: string;
   ctaLabel?: string;
+  ctaLinks?: { label: string; href: string }[];
   openInNewTab?: boolean;
   reversed?: boolean;
   delay?: number;
@@ -103,6 +110,7 @@ const ServiceSection = ({
   icon,
   href,
   ctaLabel = "Explorar",
+  ctaLinks,
   openInNewTab = false,
   reversed = false,
   delay = 0,
@@ -209,19 +217,38 @@ const ServiceSection = ({
               ))}
             </ul>
 
-            <motion.button
-              whileHover={{ scale: 1.03, x: 4 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={handleCtaClick}
-              className="group flex items-center gap-3 px-6 py-3 rounded-full border border-gold-base/30 text-gold-light font-display text-sm uppercase tracking-wider hover:bg-gold-base/10 hover:border-gold-base/50 transition-all duration-300"
-            >
-              {ctaLabel}
-              {openInNewTab ? (
-                <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-              ) : (
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-              )}
-            </motion.button>
+            {ctaLinks ? (
+              <div className="flex flex-wrap gap-3">
+                {ctaLinks.map((link) => (
+                  <motion.a
+                    key={link.href}
+                    whileHover={{ scale: 1.03, x: 4 }}
+                    whileTap={{ scale: 0.98 }}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-3 px-6 py-3 rounded-full border border-gold-base/30 text-gold-light font-display text-sm uppercase tracking-wider hover:bg-gold-base/10 hover:border-gold-base/50 transition-all duration-300"
+                  >
+                    {link.label}
+                    <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                  </motion.a>
+                ))}
+              </div>
+            ) : (
+              <motion.button
+                whileHover={{ scale: 1.03, x: 4 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={handleCtaClick}
+                className="group flex items-center gap-3 px-6 py-3 rounded-full border border-gold-base/30 text-gold-light font-display text-sm uppercase tracking-wider hover:bg-gold-base/10 hover:border-gold-base/50 transition-all duration-300"
+              >
+                {ctaLabel}
+                {openInNewTab ? (
+                  <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                ) : (
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                )}
+              </motion.button>
+            )}
           </motion.div>
         </div>
       </div>
@@ -320,11 +347,11 @@ const BarberiaSection = () => (
                 <span className="font-body text-sm text-white/70 min-w-0">{item.service}</span>
                 <span className="font-display font-semibold text-gold-base text-sm">{item.price}</span>
                 <a
-                  href={BOOKSY_URL}
+                  href={INSTAGRAM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="shrink-0 px-3 py-1 rounded-full border border-gold-base/30 text-gold-light hover:bg-gold-base hover:text-void hover:border-gold-base transition-all duration-300 font-display text-[10px] uppercase tracking-wider"
-                  aria-label={`Reservar ${item.service} en Booksy`}
+                  aria-label={`Reservar ${item.service} en Instagram`}
                 >
                   Reservar
                 </a>
@@ -336,23 +363,23 @@ const BarberiaSection = () => (
             <motion.a
               whileHover={{ scale: 1.03, x: 4 }}
               whileTap={{ scale: 0.98 }}
-              href={BOOKSY_URL}
+              href={INSTAGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="group flex items-center gap-3 px-6 py-3 rounded-full bg-gold-base text-void font-display text-sm uppercase tracking-wider hover:bg-gold-light transition-all duration-300 shadow-gold"
             >
               <CalendarCheck className="w-4 h-4" />
-              Reservar ahora
+              Reservar
             </motion.a>
             <motion.a
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
-              href={buildWhatsAppUrl(generalReserveMessage())}
+              href={INSTAGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="group flex items-center gap-3 px-6 py-3 rounded-full border border-gold-base/30 text-gold-light font-display text-sm uppercase tracking-wider hover:bg-gold-base/10 hover:border-gold-base/50 transition-all duration-300"
             >
-              Consultar por WhatsApp
+              Consultar por Instagram
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
             </motion.a>
           </div>
@@ -365,18 +392,71 @@ const BarberiaSection = () => (
 );
 
 const faceVideos = [
-  { title: "Mewing desde cero", url: "https://www.youtube.com/watch?v=5GhoMZoMLeQ" },
-  { title: "Mewing paso a paso", url: "https://www.youtube.com/watch?v=vjSqHC_HGT8" },
-  { title: "Respiración y postura facial", url: "https://www.youtube.com/watch?v=STjwKZYA4fE" },
+  {
+    title: "Mewing desde cero",
+    channel: "Jeremy Ethier en Español",
+    url: "https://www.youtube.com/watch?v=5GhoMZoMLeQ",
+  },
+  {
+    title: "Mewing paso a paso",
+    channel: "Orthotropics / Dr. Mike Mew",
+    url: "https://www.youtube.com/results?search_query=mewing+paso+a+paso+Dr+Mike+Mew",
+  },
+  {
+    title: "Respiración y postura facial",
+    channel: "Selección de respiración nasal y postura oral",
+    url: "https://www.youtube.com/results?search_query=respiracion+nasal+postura+facial+mewing",
+  },
 ];
 
 const postureVideos = [
-  { title: "Guía para principiantes", url: "https://www.youtube.com/watch?v=kVWLzYvXK-Q" },
-  { title: "Postura encorvada", url: "https://www.youtube.com/watch?v=l5IX0u-siJ8" },
-  { title: "Desbloquear y corregir postura", url: "https://www.youtube.com/watch?v=YSMfWl2zPZ0" },
+  {
+    title: "Guía para principiantes",
+    channel: "FisiosOnline",
+    url: "https://www.youtube.com/results?search_query=FisiosOnline+postura+guia+principiantes",
+  },
+  {
+    title: "Postura encorvada",
+    channel: "Fisioterapia a tu alcance",
+    url: "https://www.youtube.com/results?search_query=Fisioterapia+a+tu+alcance+postura+encorvada",
+  },
+  {
+    title: "Desbloquear y corregir postura",
+    channel: "ATHLEAN-X Español",
+    url: "https://www.youtube.com/results?search_query=ATHLEAN-X+Espa%C3%B1ol+corregir+postura",
+  },
 ];
 
-const VideoLinks = ({ title, videos }: { title: string; videos: { title: string; url: string }[] }) => (
+const healthAutomationSteps = [
+  {
+    title: "Paga el plan",
+    text: "Dieta, rutina o pack completo desde pagos únicos.",
+    icon: <CalendarCheck className="w-4 h-4 text-gold-base" />,
+  },
+  {
+    title: "Recibe el formulario",
+    text: "Objetivo, edad, nivel, horarios, lesiones, material y restricciones.",
+    icon: <MailCheck className="w-4 h-4 text-gold-base" />,
+  },
+  {
+    title: "IA especializada",
+    text: "El formulario alimenta un prompt experto en nutrición y entrenamiento.",
+    icon: <Sparkles className="w-4 h-4 text-gold-base" />,
+  },
+  {
+    title: "Entrega entendible",
+    text: "Plan claro con ejercicios, series, descansos y apoyo visual con vídeos.",
+    icon: <Video className="w-4 h-4 text-gold-base" />,
+  },
+];
+
+const VideoLinks = ({
+  title,
+  videos,
+}: {
+  title: string;
+  videos: { title: string; channel: string; url: string }[];
+}) => (
   <div>
     <p className="font-display text-sm text-white/80 mb-3">{title}</p>
     <div className="space-y-2">
@@ -388,7 +468,10 @@ const VideoLinks = ({ title, videos }: { title: string; videos: { title: string;
           rel="noopener noreferrer"
           className="flex items-center justify-between gap-3 rounded-xl border border-white/10 px-4 py-3 text-sm text-white/60 hover:border-gold-base/40 hover:text-gold-light transition-colors duration-300"
         >
-          {video.title}
+          <span>
+            <span className="block text-white/70">{video.title}</span>
+            <span className="block text-xs text-white/35 mt-1">{video.channel}</span>
+          </span>
           <ExternalLink className="w-3.5 h-3.5 text-gold-base shrink-0" />
         </a>
       ))}
@@ -423,7 +506,7 @@ const HealthSection = () => {
             Salud, imagen y rendimiento
           </h2>
           <p className="font-body text-white/50 leading-relaxed">
-            La sección se organiza en tres bloques claros: nutrición, cuidado facial/capilar y salud corporal. Los planes de dieta y rutina pasan a pago único y se personalizan mediante formulario por email.
+            Tres áreas conectadas para que el cuidado sea práctico: nutrición, cuidado facial/capilar y planes corporales con pago, formulario y entrega personalizada.
           </p>
         </motion.div>
 
@@ -439,6 +522,14 @@ const HealthSection = () => {
               <h3 className="font-display text-xl text-white">Salud nutricional</h3>
             </div>
             <div className="border-t border-white/10 pt-5">
+              <div className="relative overflow-hidden rounded-xl border border-white/10 aspect-[4/3] mb-5 bg-white">
+                <img
+                  src={FUXION_IMAGE_URL}
+                  alt="Fuxion"
+                  loading="lazy"
+                  className="w-full h-full object-contain p-4"
+                />
+              </div>
               <p className="font-display text-sm text-gold-light mb-2">Inmunológico · Fuxion</p>
               <p className="font-body text-sm text-white/50 leading-relaxed mb-4">
                 Bebidas nutricionales orientadas al apoyo diario del sistema inmune, energía, digestión y hábitos de bienestar.
@@ -456,7 +547,7 @@ const HealthSection = () => {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm font-display uppercase tracking-wider text-gold-light hover:text-gold-base"
               >
-                Comprar en partner
+                Comprar
                 <ExternalLink className="w-4 h-4" />
               </a>
             </div>
@@ -477,7 +568,7 @@ const HealthSection = () => {
               <div>
                 <p className="font-display text-sm text-gold-light mb-2">Tratamiento en pieles · Mary Kay</p>
                 <p className="font-body text-sm text-white/50 leading-relaxed mb-4">
-                  Alta cosmética para limpieza, hidratación, cuidado avanzado y mantenimiento facial con compra por enlace partner.
+                  Alta cosmética con asesoramiento por WhatsApp para personalizar el producto antes de enviar el link de compra online.
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">
                   {["Limpieza", "Hidratación", "Cuidado avanzado", "Protección"].map((category) => (
@@ -492,7 +583,7 @@ const HealthSection = () => {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm font-display uppercase tracking-wider text-gold-light hover:text-gold-base"
                 >
-                  Comprar en partner
+                  Comprar por WhatsApp
                   <ExternalLink className="w-4 h-4" />
                 </a>
               </div>
@@ -503,7 +594,7 @@ const HealthSection = () => {
                   Champús artesanales informativos con venta directa en tienda. Tipos disponibles: Seco y Graso.
                 </p>
                 <a
-                  href={SKY_STORE_URL}
+                  href={SKY_STORE_MEN_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm font-display uppercase tracking-wider text-gold-light hover:text-gold-base"
@@ -519,7 +610,7 @@ const HealthSection = () => {
                   Producto de crecimiento capilar de marca Kirkland, con venta directa desde la tienda Sky Club.
                 </p>
                 <a
-                  href={SKY_STORE_URL}
+                  href={SKY_STORE_MEN_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm font-display uppercase tracking-wider text-gold-light hover:text-gold-base"
@@ -546,13 +637,30 @@ const HealthSection = () => {
               <div>
                 <p className="font-display text-sm text-gold-light mb-2">Rutinas / dietas personalizadas</p>
                 <p className="font-body text-sm text-white/50 leading-relaxed mb-5">
-                  Pago único desde la web, email del usuario y formulario automático para edad, objetivos, nivel, restricciones, horarios y preferencias. La respuesta alimenta un prompt exclusivo de IA para generar dieta y rutina de gym a medida.
+                  La idea es que el usuario pague, rellene un formulario rápido y el sistema convierta sus respuestas en un plan de dieta o gimnasio fácil de seguir solo, con ejercicios claros y apoyo en fotos o vídeos.
                 </p>
+                <div className="grid grid-cols-1 gap-3 mb-5">
+                  {healthAutomationSteps.map((step) => (
+                    <div
+                      key={step.title}
+                      className="flex gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-4"
+                    >
+                      <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gold-base/10 border border-gold-base/20">
+                        {step.icon}
+                      </div>
+                      <div>
+                        <p className="font-display text-sm text-white">{step.title}</p>
+                        <p className="font-body text-xs text-white/45 leading-relaxed mt-1">{step.text}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
                 <button
                   type="button"
                   onClick={scrollToOffers}
                   className="inline-flex items-center gap-2 text-sm font-display uppercase tracking-wider text-gold-light hover:text-gold-base"
                 >
+                  <ClipboardList className="w-4 h-4" />
                   Ver pagos únicos
                   <ArrowRight className="w-4 h-4" />
                 </button>
@@ -590,8 +698,11 @@ const services = [
     image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80",
     icon: <ShoppingBag className="w-5 h-5 text-gold-base" />,
     reversed: true,
-    href: SKY_STORE_URL,
-    ctaLabel: "Entrar en tienda",
+    href: SKY_STORE_MEN_URL,
+    ctaLinks: [
+      { label: "Tienda hombre", href: SKY_STORE_MEN_URL },
+      { label: "Tienda mujer", href: SKY_STORE_WOMEN_URL },
+    ],
     openInNewTab: true,
   },
   {

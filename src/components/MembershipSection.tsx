@@ -218,7 +218,7 @@ const MembershipSection = () => {
             Elige Tu <span className="text-gold-gradient">Elevación</span>
           </h2>
           <p className="font-body text-white/50 max-w-xl mx-auto">
-            Dieta, rutina o pack completo. Tras el pago recibirás por email el formulario para personalizar objetivos, nivel, restricciones y horarios.
+            Dieta, rutina o pack completo. Tras el pago recibirás un formulario express para activar un plan generado con IA, claro y fácil de seguir con apoyo visual.
           </p>
         </motion.div>
 
@@ -251,7 +251,7 @@ const MembershipSection = () => {
               "Formulario nutricional por email",
               "Objetivos y restricciones alimentarias",
               "Preferencias, horarios y estilo de vida",
-              "Plan personalizado con IA exclusiva",
+              "Plan personalizado con IA y pautas claras",
             ]}
             cta="Pagar dieta"
             note="14,99€"
@@ -266,7 +266,7 @@ const MembershipSection = () => {
               "Formulario de nivel y experiencia",
               "Objetivos físicos y disponibilidad",
               "Material, lesiones y limitaciones",
-              "Rutina de gym personalizada",
+              "Rutina con ejercicios, series y vídeos",
             ]}
             cta="Pagar rutina"
             note="14,99€"
@@ -282,7 +282,7 @@ const MembershipSection = () => {
               "Full Pack personalizado",
               "Dieta y entrenamiento conectados",
               "Formulario completo por email",
-              "Mejor valor por pago único",
+              "Entrega clara para entrenar sin coach",
             ]}
             cta="Pagar full pack"
             note="20,00€"
