@@ -1,15 +1,16 @@
 import { motion } from "framer-motion";
-import { ArrowUpRight, Phone, Instagram, Clock } from "lucide-react";
+import { ArrowUpRight, Phone, Instagram, Clock, CalendarCheck } from "lucide-react";
 
-const INSTAGRAM_URL = "https://www.instagram.com/skyclub_es/";
+import { BOOKSY_URL, INSTAGRAM_URL } from "@/lib/serviceLinks";
 
 const footerLinks = [
   { name: "La Barbería", href: "#barberia" },
   { name: "Tienda", href: "#tienda" },
+  { name: "Joyería", href: "#joyeria" },
   { name: "Librería", href: "#libreria" },
   { name: "Podcast", href: "#podcast-section" },
   { name: "Salud & Bienestar", href: "#gym" },
-  { name: "Pagos únicos", href: "#membership" },
+  { name: "Planes personalizados", href: "#membership" },
 ];
 
 const legalLinks = [
@@ -99,13 +100,13 @@ const Footer = () => {
             <ul className="space-y-3 text-sm">
               <li>
                 <a
-                  href={INSTAGRAM_URL}
+                  href={BOOKSY_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-white/60 hover:text-gold-base transition-colors duration-300"
                 >
-                  <Instagram className="w-3.5 h-3.5 text-gold-base" />
-                  Instagram · Reservar
+                  <CalendarCheck className="w-3.5 h-3.5 text-gold-base" />
+                  Booksy · Reservar
                 </a>
               </li>
               <li>

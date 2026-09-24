@@ -24,7 +24,7 @@ const ConciergeButton = () => {
       </AnimatePresence>
 
       {/* Main Button */}
-      <div className="fixed bottom-8 right-8 z-50">
+      <div className="fixed bottom-24 right-4 sm:bottom-8 sm:right-8 z-50">
         {/* Ping Ring */}
         <motion.div
           animate={{
@@ -40,6 +40,7 @@ const ConciergeButton = () => {
         />
 
         <motion.button
+          aria-label={isExpanded ? "Cerrar concierge" : "Abrir concierge"}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           onClick={() => setIsExpanded(!isExpanded)}
@@ -93,7 +94,7 @@ const ConciergeButton = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.9 }}
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
-              className="absolute bottom-20 right-0 w-80 glass-panel rounded-2xl p-6 border border-gold-base/20"
+              className="absolute bottom-20 right-0 w-80 max-w-[calc(100vw-2rem)] glass-panel rounded-2xl p-6 border border-gold-base/20"
             >
               <h3 className="font-display font-bold text-white text-lg mb-2">
                 Concierge VIP

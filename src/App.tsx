@@ -17,11 +17,10 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <PaymentTestModeBanner />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
-          <Route path="/checkout/return" element={<CheckoutReturn />} />
+          <Route path="/checkout/return" element={<><PaymentTestModeBanner /><CheckoutReturn /></>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

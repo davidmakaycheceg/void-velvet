@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowDown, ArrowRight, CalendarCheck } from "lucide-react";
 import { useState } from "react";
 
-const INSTAGRAM_URL = "https://www.instagram.com/skyclub_es/";
+import { BOOKSY_URL, INSTAGRAM_URL } from "@/lib/serviceLinks";
 
 interface CardAction {
   label: string;
@@ -119,7 +119,7 @@ const BentoCard = ({
         </motion.div>
 
         {/* Arrow Button */}
-        <motion.div
+        {!actions && <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: isHovered ? 1 : 0, scale: isHovered ? 1 : 0.8 }}
           transition={{ duration: 0.3 }}
@@ -128,7 +128,7 @@ const BentoCard = ({
           <div className="w-12 h-12 rounded-full border border-gold-base/50 bg-gold-base/10 backdrop-blur-sm flex items-center justify-center">
             <ArrowDown className="w-5 h-5 text-gold-base" />
           </div>
-        </motion.div>
+        </motion.div>}
       </div>
 
       {/* Hover Border */}
@@ -186,8 +186,8 @@ const BentoGrid = () => {
           delay={0}
           scrollTo="barberia"
           actions={[
-            { label: "Reservar", externalLink: INSTAGRAM_URL, variant: "primary" },
-            { label: "Ver más", scrollTo: "barberia", variant: "secondary" },
+            { label: "Reservar", externalLink: BOOKSY_URL, variant: "primary" },
+            { label: "Ver más", externalLink: INSTAGRAM_URL, variant: "secondary" },
           ]}
         />
 
@@ -203,9 +203,9 @@ const BentoGrid = () => {
 
         {/* Tienda */}
         <BentoCard
-          title="TIENDA"
-          subtitle="Estilo & Exclusividad"
-          image="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80"
+          title="ÓRBITA"
+          subtitle="Tienda de hombre"
+          image="/orbita-horma-cuero.jpg"
           className="md:col-span-1 md:row-span-2"
           delay={0.2}
           scrollTo="tienda"

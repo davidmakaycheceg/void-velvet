@@ -7,7 +7,7 @@ const navItems = [
   { icon: Eye, label: "Visión", href: "#vision" },
   { icon: Scissors, label: "Servicios", href: "#barberia" },
   { icon: HeartPulse, label: "Salud", href: "#gym" },
-  { icon: Dumbbell, label: "Pagos", href: "#membership" },
+  { icon: Dumbbell, label: "Planes", href: "#membership" },
   { icon: Mic, label: "Podcast", href: "#podcast-section" },
   { icon: MapPin, label: "Contacto", href: "#footer" },
 ];
@@ -45,10 +45,10 @@ const FloatingNav = () => {
 
   return (
     <motion.nav
-      initial={{ y: 100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
+      initial={{ x: "-50%", y: 100, opacity: 0 }}
+      animate={{ x: "-50%", y: 0, opacity: 1 }}
       transition={{ delay: 1.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40"
+      className="fixed bottom-4 sm:bottom-8 left-1/2 z-40 max-w-[calc(100%-2rem)]"
     >
       <motion.div
         transition={{ type: "spring", stiffness: 400, damping: 25 }}
@@ -66,7 +66,7 @@ const FloatingNav = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.4 + index * 0.08 }}
-              className={`group relative flex items-center justify-center w-11 h-11 rounded-full transition-all duration-300 ${isActive ? "bg-gold-base/15" : "hover:bg-white/5"
+              className={`group relative flex shrink-0 items-center justify-center w-9 sm:w-11 h-11 rounded-full transition-all duration-300 ${isActive ? "bg-gold-base/15" : "hover:bg-white/5"
                 }`}
             >
               <item.icon

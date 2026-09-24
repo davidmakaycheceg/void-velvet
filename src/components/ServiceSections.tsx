@@ -4,32 +4,19 @@ import {
   ArrowRight,
   BookOpen,
   CalendarCheck,
-  ClipboardList,
   Droplets,
   Dumbbell,
   ExternalLink,
   HeartPulse,
   Leaf,
-  MailCheck,
+  Gem,
+  MessageCircle,
   Scissors,
   ShoppingBag,
-  Sparkles,
-  Video,
   X,
 } from "lucide-react";
 import { useState } from "react";
-import { buildWhatsAppUrl } from "@/lib/whatsapp";
-
-const INSTAGRAM_URL = "https://www.instagram.com/skyclub_es/";
-const SKY_STORE_MEN_URL = "https://hormaycuero.lovable.app";
-const SKY_STORE_WOMEN_URL = "https://coqueta.lovable.app";
-const FUXION_IMAGE_URL = "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/productDetails/PE/PE_144134_EXT_29092020_184510.jpg";
-const FUXION_PARTNER_URL = buildWhatsAppUrl(
-  "Hola SKY CLUB, quiero el enlace de compra partner para bebidas nutricionales Fuxion.",
-);
-const MARY_KAY_PARTNER_URL = buildWhatsAppUrl(
-  "Hola SKY CLUB, quiero asesoramiento para comprar Mary Kay y recibir mi link personalizado.",
-);
+import { BOOKSY_URL, INSTAGRAM_URL, SKY_STORE_MEN_URL, FUXION_SHOP_URL, MARY_KAY_SHOP_URL, JEWELRY_URL, DIET_URL, ROUTINE_URL } from "@/lib/serviceLinks";
 
 // Iframe overlay for embedded service pages
 const ServiceOverlay = ({ url, title, onClose }: { url: string; title: string; onClose: () => void }) => {
@@ -89,6 +76,7 @@ interface ServiceSectionProps {
   description: string;
   features: string[];
   image: string;
+  imageCaption?: string;
   icon: React.ReactNode;
   href: string;
   ctaLabel?: string;
@@ -107,6 +95,7 @@ const ServiceSection = ({
   description,
   features,
   image,
+  imageCaption,
   icon,
   href,
   ctaLabel = "Explorar",
@@ -173,6 +162,7 @@ const ServiceSection = ({
               <div className="absolute -top-2 -left-2 w-8 h-8 border-t-2 border-l-2 border-gold-base/30 rounded-tl-lg" />
               <div className="absolute -bottom-2 -right-2 w-8 h-8 border-b-2 border-r-2 border-gold-base/30 rounded-br-lg" />
             </div>
+            {imageCaption && <p className="mt-4 text-xs text-white/45">{imageCaption}</p>}
           </motion.div>
 
           <motion.div
@@ -347,11 +337,11 @@ const BarberiaSection = () => (
                 <span className="font-body text-sm text-white/70 min-w-0">{item.service}</span>
                 <span className="font-display font-semibold text-gold-base text-sm">{item.price}</span>
                 <a
-                  href={INSTAGRAM_URL}
+                  href={BOOKSY_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="shrink-0 px-3 py-1 rounded-full border border-gold-base/30 text-gold-light hover:bg-gold-base hover:text-void hover:border-gold-base transition-all duration-300 font-display text-[10px] uppercase tracking-wider"
-                  aria-label={`Reservar ${item.service} en Instagram`}
+                  aria-label={`Reservar ${item.service} en Booksy`}
                 >
                   Reservar
                 </a>
@@ -363,7 +353,7 @@ const BarberiaSection = () => (
             <motion.a
               whileHover={{ scale: 1.03, x: 4 }}
               whileTap={{ scale: 0.98 }}
-              href={INSTAGRAM_URL}
+              href={BOOKSY_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="group flex items-center gap-3 px-6 py-3 rounded-full bg-gold-base text-void font-display text-sm uppercase tracking-wider hover:bg-gold-light transition-all duration-300 shadow-gold"
@@ -379,7 +369,7 @@ const BarberiaSection = () => (
               rel="noopener noreferrer"
               className="group flex items-center gap-3 px-6 py-3 rounded-full border border-gold-base/30 text-gold-light font-display text-sm uppercase tracking-wider hover:bg-gold-base/10 hover:border-gold-base/50 transition-all duration-300"
             >
-              Consultar por Instagram
+              Ver más
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
             </motion.a>
           </div>
@@ -427,29 +417,6 @@ const postureVideos = [
   },
 ];
 
-const healthAutomationSteps = [
-  {
-    title: "Paga el plan",
-    text: "Dieta, rutina o pack completo desde pagos únicos.",
-    icon: <CalendarCheck className="w-4 h-4 text-gold-base" />,
-  },
-  {
-    title: "Recibe el formulario",
-    text: "Objetivo, edad, nivel, horarios, lesiones, material y restricciones.",
-    icon: <MailCheck className="w-4 h-4 text-gold-base" />,
-  },
-  {
-    title: "IA especializada",
-    text: "El formulario alimenta un prompt experto en nutrición y entrenamiento.",
-    icon: <Sparkles className="w-4 h-4 text-gold-base" />,
-  },
-  {
-    title: "Entrega entendible",
-    text: "Plan claro con ejercicios, series, descansos y apoyo visual con vídeos.",
-    icon: <Video className="w-4 h-4 text-gold-base" />,
-  },
-];
-
 const VideoLinks = ({
   title,
   videos,
@@ -480,10 +447,6 @@ const VideoLinks = ({
 );
 
 const HealthSection = () => {
-  const scrollToOffers = () => {
-    document.getElementById("membership")?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <section id="gym" className="relative py-20 md:py-28 px-6 bg-void overflow-hidden">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-base/15 to-transparent" />
@@ -506,7 +469,7 @@ const HealthSection = () => {
             Salud, imagen y rendimiento
           </h2>
           <p className="font-body text-white/50 leading-relaxed">
-            Tres áreas conectadas para que el cuidado sea práctico: nutrición, cuidado facial/capilar y planes corporales con pago, formulario y entrega personalizada.
+            Nutrición, cuidado facial y capilar, y planes personalizados para acompañar tus objetivos.
           </p>
         </motion.div>
 
@@ -522,12 +485,12 @@ const HealthSection = () => {
               <h3 className="font-display text-xl text-white">Salud nutricional</h3>
             </div>
             <div className="border-t border-white/10 pt-5">
-              <div className="relative overflow-hidden rounded-xl border border-white/10 aspect-[4/3] mb-5 bg-white">
+              <div className="relative overflow-hidden rounded-lg aspect-square mb-5 bg-black">
                 <img
-                  src={FUXION_IMAGE_URL}
-                  alt="Fuxion"
+                  src="/fuxion-sky-club.png"
+                  alt="FuXion: Vita Xtra, No Stress y Pre Sport"
                   loading="lazy"
-                  className="w-full h-full object-contain p-4"
+                  className="w-full h-full object-contain"
                 />
               </div>
               <p className="font-display text-sm text-gold-light mb-2">Inmunológico · Fuxion</p>
@@ -542,12 +505,12 @@ const HealthSection = () => {
                 ))}
               </div>
               <a
-                href={FUXION_PARTNER_URL}
+                href={FUXION_SHOP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm font-display uppercase tracking-wider text-gold-light hover:text-gold-base"
               >
-                Comprar
+                Solicitar enlace de compra
                 <ExternalLink className="w-4 h-4" />
               </a>
             </div>
@@ -566,9 +529,15 @@ const HealthSection = () => {
             </div>
             <div className="space-y-6 border-t border-white/10 pt-5">
               <div>
+                <img
+                  src="/cuidado-facial-sky-club.png"
+                  alt="Cuidado facial en Sky Club: limpieza, hidratación y protección de la piel"
+                  loading="lazy"
+                  className="w-full aspect-square object-contain rounded-lg mb-5"
+                />
                 <p className="font-display text-sm text-gold-light mb-2">Tratamiento en pieles · Mary Kay</p>
                 <p className="font-body text-sm text-white/50 leading-relaxed mb-4">
-                  Alta cosmética con asesoramiento por WhatsApp para personalizar el producto antes de enviar el link de compra online.
+                  Encuentra productos de limpieza, hidratación y cuidado facial en la tienda Mary Kay de Sky Skin Club.
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">
                   {["Limpieza", "Hidratación", "Cuidado avanzado", "Protección"].map((category) => (
@@ -578,12 +547,12 @@ const HealthSection = () => {
                   ))}
                 </div>
                 <a
-                  href={MARY_KAY_PARTNER_URL}
+                  href={MARY_KAY_SHOP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm font-display uppercase tracking-wider text-gold-light hover:text-gold-base"
                 >
-                  Comprar por WhatsApp
+                  Comprar Mary Kay
                   <ExternalLink className="w-4 h-4" />
                 </a>
               </div>
@@ -637,33 +606,16 @@ const HealthSection = () => {
               <div>
                 <p className="font-display text-sm text-gold-light mb-2">Rutinas / dietas personalizadas</p>
                 <p className="font-body text-sm text-white/50 leading-relaxed mb-5">
-                  La idea es que el usuario pague, rellene un formulario rápido y el sistema convierta sus respuestas en un plan de dieta o gimnasio fácil de seguir solo, con ejercicios claros y apoyo en fotos o vídeos.
+                  Cuéntanos tus objetivos, horarios y preferencias. Contacta con Sky Club para solicitar tu dieta o rutina personalizada.
                 </p>
-                <div className="grid grid-cols-1 gap-3 mb-5">
-                  {healthAutomationSteps.map((step) => (
-                    <div
-                      key={step.title}
-                      className="flex gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-4"
-                    >
-                      <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gold-base/10 border border-gold-base/20">
-                        {step.icon}
-                      </div>
-                      <div>
-                        <p className="font-display text-sm text-white">{step.title}</p>
-                        <p className="font-body text-xs text-white/45 leading-relaxed mt-1">{step.text}</p>
-                      </div>
-                    </div>
+                <div className="flex flex-col items-start gap-4">
+                  {[{ label: "Dieta personalizada", href: DIET_URL }, { label: "Rutina personalizada", href: ROUTINE_URL }].map((plan) => (
+                    <a key={plan.href} href={plan.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-display text-gold-light hover:text-gold-base">
+                      <MessageCircle className="w-4 h-4 shrink-0" />
+                      {plan.label}
+                    </a>
                   ))}
                 </div>
-                <button
-                  type="button"
-                  onClick={scrollToOffers}
-                  className="inline-flex items-center gap-2 text-sm font-display uppercase tracking-wider text-gold-light hover:text-gold-base"
-                >
-                  <ClipboardList className="w-4 h-4" />
-                  Ver pagos únicos
-                  <ArrowRight className="w-4 h-4" />
-                </button>
               </div>
 
               <div className="border-t border-white/10 pt-5">
@@ -685,24 +637,35 @@ const services = [
   {
     id: "tienda",
     label: "ESTILO & EXCLUSIVIDAD",
-    title: "Sky Club Store",
-    subtitle: "Diseñamos para quienes entienden que invertir en uno mismo no es un lujo, es un estilo de vida",
-    description: "Una tienda con las piezas más exclusivas en moda masculina",
+    title: "ÓRBITA",
+    subtitle: "Tienda de hombre",
+    description: "Descubre la selección de calzado masculino en Horma y Cuero.",
     features: [
-      "Colecciones exclusivas SKY CLUB",
-      "Joyería y accesorios premium",
-      "Ropa de diseño seleccionada",
-      "Ediciones limitadas cada temporada",
-      "Envío discreto y empaquetado luxury",
+      "Oxford y zapatos Derby",
+      "Botas Chelsea y mocasines",
+      "Modelos para cada ocasión",
     ],
-    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80",
+    image: "/orbita-horma-cuero.jpg",
     icon: <ShoppingBag className="w-5 h-5 text-gold-base" />,
     reversed: true,
     href: SKY_STORE_MEN_URL,
     ctaLinks: [
-      { label: "Tienda hombre", href: SKY_STORE_MEN_URL },
-      { label: "Tienda mujer", href: SKY_STORE_WOMEN_URL },
+      { label: "Visitar tienda de hombre", href: SKY_STORE_MEN_URL },
     ],
+    openInNewTab: true,
+  },
+  {
+    id: "joyeria",
+    label: "JOYERÍA",
+    title: "Joyería Sky Club",
+    subtitle: "El detalle que te acompaña.",
+    description: "Consulta nuestra selección de joyería y encuentra una pieza para ti. Te atenderemos personalmente por WhatsApp para confirmar modelos, precios y disponibilidad.",
+    features: ["Atención personalizada", "Compra por WhatsApp"],
+    image: "/joyeria-inspiracion.jpg",
+    imageCaption: "Imagen de inspiración. Consulta las piezas disponibles por WhatsApp.",
+    icon: <Gem className="w-5 h-5 text-gold-base" />,
+    href: JEWELRY_URL,
+    ctaLinks: [{ label: "Consultar joyería por WhatsApp", href: JEWELRY_URL }],
     openInNewTab: true,
   },
   {

@@ -1,9 +1,7 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { Check, Dumbbell, Leaf, Mail, Sparkles } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useStripeCheckout } from "@/hooks/useStripeCheckout";
-import { useAuth } from "@/hooks/useAuth";
+import { Check, Dumbbell, Leaf, MessageCircle, Sparkles } from "lucide-react";
+import { DIET_URL, ROUTINE_URL, FULL_PLAN_URL } from "@/lib/serviceLinks";
 
 interface PricingCardProps {
   tier: string;
@@ -15,7 +13,7 @@ interface PricingCardProps {
   isPopular?: boolean;
   isPremium?: boolean;
   delay?: number;
-  onCtaClick?: () => void;
+  href: string;
 }
 
 const formatEuro = (value: number) => `${value.toFixed(2).replace(".", ",")}€`;
@@ -30,7 +28,7 @@ const PricingCard = ({
   isPopular,
   isPremium,
   delay = 0,
-  onCtaClick,
+  href,
 }: PricingCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [displayPrice, setDisplayPrice] = useState(0);
@@ -113,7 +111,7 @@ const PricingCard = ({
       className={`
         relative rounded-3xl p-8 transition-all duration-500
         ${isPremium
-          ? "bg-[#0a0a0a] border-beam scale-105 md:scale-110 shadow-gold-lg z-10"
+          ? "bg-[#0a0a0a] border-beam shadow-gold-lg z-10"
           : isPopular
             ? "glass-panel border border-white/20"
             : "bg-white/5 border border-white/10"
@@ -159,12 +157,13 @@ const PricingCard = ({
         ))}
       </ul>
 
-      <button
-        type="button"
-        onClick={onCtaClick}
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
         className={`
           relative z-20 cursor-pointer
-          w-full py-4 rounded-full font-display font-semibold text-sm uppercase tracking-wider
+          flex items-center justify-center gap-2 w-full px-3 py-4 rounded-full font-display font-semibold text-sm text-center
           transition-all duration-300
           ${isPremium
             ? "bg-gold-gradient text-void shimmer hover:shadow-gold"
@@ -174,32 +173,14 @@ const PricingCard = ({
           }
         `}
       >
+        <MessageCircle className="w-4 h-4 shrink-0" />
         {cta}
-      </button>
+      </a>
     </motion.div>
   );
 };
 
 const MembershipSection = () => {
-  const { user } = useAuth();
-  const { openCheckout, closeCheckout, isOpen, checkoutElement } = useStripeCheckout();
-  const [checkoutEmail, setCheckoutEmail] = useState("");
-
-  useEffect(() => {
-    if (user?.email && !checkoutEmail) {
-      setCheckoutEmail(user.email);
-    }
-  }, [user?.email, checkoutEmail]);
-
-  const handlePurchase = (priceId: string) => {
-    openCheckout({
-      priceId,
-      customerEmail: checkoutEmail.trim() || user?.email || undefined,
-      userId: user?.id ?? "",
-      returnUrl: `${window.location.origin}/checkout/return?session_id={CHECKOUT_SESSION_ID}`,
-    });
-  };
-
   return (
     <section id="membership" className="relative py-24 md:py-32 px-6 bg-void overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gold-base/5 blur-[150px] pointer-events-none" />
@@ -212,34 +193,14 @@ const MembershipSection = () => {
           className="text-center mb-12"
         >
           <span className="font-mono text-xs uppercase tracking-[0.3em] text-gold-base/60">
-            // PAGO ÚNICO
+            // PLANES PERSONALIZADOS
           </span>
           <h2 className="font-display font-bold text-heading-1 text-white mt-4 mb-4">
             Elige Tu <span className="text-gold-gradient">Elevación</span>
           </h2>
           <p className="font-body text-white/50 max-w-xl mx-auto">
-            Dieta, rutina o pack completo. Tras el pago recibirás un formulario express para activar un plan generado con IA, claro y fácil de seguir con apoyo visual.
+            Dieta, rutina o pack completo. Habla con nosotros por WhatsApp para elegir el plan que mejor encaja con tus objetivos.
           </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="max-w-xl mx-auto mb-16"
-        >
-          <label htmlFor="checkout-email" className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-white/40 mb-3">
-            <Mail className="w-4 h-4 text-gold-base" />
-            Email para recibir el formulario
-          </label>
-          <input
-            id="checkout-email"
-            type="email"
-            value={checkoutEmail}
-            onChange={(event) => setCheckoutEmail(event.target.value)}
-            placeholder="tu@email.com"
-            className="w-full rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-4 text-white placeholder:text-white/25 outline-none focus:border-gold-base/50 focus:ring-2 focus:ring-gold-base/10"
-          />
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-4 items-center">
@@ -248,15 +209,15 @@ const MembershipSection = () => {
             price={14.99}
             icon={<Leaf className="w-10 h-10 text-white/60" />}
             features={[
-              "Formulario nutricional por email",
+              "Consulta nutricional por WhatsApp",
               "Objetivos y restricciones alimentarias",
               "Preferencias, horarios y estilo de vida",
-              "Plan personalizado con IA y pautas claras",
+              "Plan personalizado y pautas claras",
             ]}
-            cta="Pagar dieta"
+            cta="Consultar dieta"
             note="14,99€"
             delay={0.1}
-            onCtaClick={() => handlePurchase("sky_diet_one_time")}
+            href={DIET_URL}
           />
           <PricingCard
             tier="Rutina"
@@ -268,11 +229,11 @@ const MembershipSection = () => {
               "Material, lesiones y limitaciones",
               "Rutina con ejercicios, series y vídeos",
             ]}
-            cta="Pagar rutina"
+            cta="Consultar rutina"
             note="14,99€"
             isPopular
             delay={0.2}
-            onCtaClick={() => handlePurchase("sky_routine_one_time")}
+            href={ROUTINE_URL}
           />
           <PricingCard
             tier="Dieta + Rutina"
@@ -281,25 +242,17 @@ const MembershipSection = () => {
             features={[
               "Full Pack personalizado",
               "Dieta y entrenamiento conectados",
-              "Formulario completo por email",
+              "Consulta completa por WhatsApp",
               "Entrega clara para entrenar sin coach",
             ]}
-            cta="Pagar full pack"
+            cta="Consultar pack completo"
             note="20,00€"
             isPremium
             delay={0.3}
-            onCtaClick={() => handlePurchase("sky_full_pack_one_time")}
+            href={FULL_PLAN_URL}
           />
         </div>
 
-        <Dialog open={isOpen} onOpenChange={(o) => !o && closeCheckout()}>
-          <DialogContent className="max-w-2xl bg-void border-white/10 text-white max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle className="font-display text-gold-gradient">Completa tu pago único</DialogTitle>
-            </DialogHeader>
-            {checkoutElement}
-          </DialogContent>
-        </Dialog>
       </div>
     </section>
   );
